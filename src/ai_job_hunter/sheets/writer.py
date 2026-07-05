@@ -14,9 +14,10 @@ separately — see docs/adr/0003-dedup-and-idempotency-via-sheet-state.md.
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import TYPE_CHECKING, Protocol
+from typing import TYPE_CHECKING, Protocol, cast
 
 import gspread.utils
+from gspread.utils import ValueInputOption
 
 from ai_job_hunter.dedup import compute_job_id
 from ai_job_hunter.models import ATSType, HiresInAfrica
@@ -186,7 +187,9 @@ class GoogleSheetsWriter:
         worksheet = self._spreadsheet.worksheet(OPEN_ROLES_SHEET)
         validate_headers(worksheet, OPEN_ROLES_COLUMNS)
 
-        existing_records = worksheet.get_all_records()
+        existing_records = cast(
+            list[dict[str, str]], worksheet.get_all_records(numericise_ignore=["all"])
+        )
         existing_by_id = {}
         for row_number, record in enumerate(existing_records, start=2):
             apply_link = record.get(_APPLY_LINK_COLUMN) or None
@@ -216,7 +219,7 @@ class GoogleSheetsWriter:
                 result.appended.append(scored)
 
         if rows_to_append:
-            worksheet.append_rows(rows_to_append, value_input_option="USER_ENTERED")
+            worksheet.append_rows(rows_to_append, value_input_option=ValueInputOption.user_entered)
 
         return result
 
@@ -224,7 +227,9 @@ class GoogleSheetsWriter:
         worksheet = self._spreadsheet.worksheet(TARGET_COMPANIES_SHEET)
         validate_headers(worksheet, TARGET_COMPANIES_COLUMNS)
 
-        existing_records = worksheet.get_all_records()
+        existing_records = cast(
+            list[dict[str, str]], worksheet.get_all_records(numericise_ignore=["all"])
+        )
         existing_by_name = {
             str(record.get("Company", "")).lower(): row_number
             for row_number, record in enumerate(existing_records, start=2)
@@ -250,6 +255,6 @@ class GoogleSheetsWriter:
                 result.appended.append(company)
 
         if rows_to_append:
-            worksheet.append_rows(rows_to_append, value_input_option="USER_ENTERED")
+            worksheet.append_rows(rows_to_append, value_input_option=ValueInputOption.user_entered)
 
         return result

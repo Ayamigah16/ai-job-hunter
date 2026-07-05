@@ -14,7 +14,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 
 from ai_job_hunter.sheets.schema import (
     APPLICATIONS_COLUMNS,
@@ -120,7 +120,9 @@ def refresh_dashboard(
 ) -> DashboardStats:
     applications_ws = spreadsheet.worksheet(APPLICATIONS_SHEET)
     validate_headers(applications_ws, APPLICATIONS_COLUMNS)
-    applications = applications_ws.get_all_records()
+    applications = cast(
+        list[dict[str, str]], applications_ws.get_all_records(numericise_ignore=["all"])
+    )
 
     stats = compute_dashboard_stats(applications, today)
 
