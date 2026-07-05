@@ -57,8 +57,30 @@ ai-job-hunter fetch --dry-run
 ai-job-hunter fetch --dry-run --score --top 20
 ```
 
-Later phases will require a `.env` (copy `.env.example`) with Google Sheets, Telegram, and SMTP
-credentials — none of that is needed yet for the current (scaffold) stage.
+## Google Sheets setup (required for `ai-job-hunter run`)
+
+`fetch --dry-run` (with or without `--score`) needs no credentials at all. Only the full
+`run` command — which syncs results into your spreadsheet — needs the setup below.
+
+1. **Create the spreadsheet.** Make a new Google Sheet with tabs named exactly `Open Roles`,
+   `Target Companies`, `Networking`, `Applications`, `Weekly Dashboard`. Give `Open Roles` the
+   header row `Company | Role | Country | Remote | Region | Salary | Tech Stack | Apply Link |
+   Date Posted | Deadline | Status | Notes`, and `Target Companies` the header row `Company |
+   Industry | Careers Page | Remote Friendly | Hires in Africa? | Referral Needed? | Priority`
+   (exact spelling/order — the pipeline validates this and fails loudly on drift, see
+   `sheets/schema.py`). Copy the spreadsheet id out of its URL
+   (`docs.google.com/spreadsheets/d/`**`THIS_PART`**`/edit`).
+2. **Create a GCP service account.** In the [Google Cloud Console](https://console.cloud.google.com/):
+   create (or reuse) a project, enable the **Google Sheets API**, then under
+   *IAM & Admin → Service Accounts* create a service account, add a JSON key, and download it.
+3. **Share the sheet with the service account.** Open the downloaded JSON, copy its
+   `client_email` value, and share your spreadsheet with that email as **Editor** — the same way
+   you'd share it with a person.
+4. **Configure `.env`.** Copy `.env.example` to `.env`, save the JSON key under
+   `credentials/service-account.json` (already gitignored), and set
+   `GOOGLE_APPLICATION_CREDENTIALS=./credentials/service-account.json` and
+   `GOOGLE_SHEETS_SPREADSHEET_ID=<the id from step 1>`.
+5. Run `ai-job-hunter run`.
 
 ## Project layout
 
@@ -74,7 +96,8 @@ default) hits real endpoints.
 - [x] ATS adapters (Greenhouse, Lever, Ashby, Workable, SmartRecruiters, BambooHR, Recruitee,
       Personio) + aggregator adapters
 - [x] Scoring engine + cross-source dedup
-- [ ] Google Sheets integration (MVP milestone, `v0.1.0`)
+- [x] Google Sheets integration (MVP milestone, `v0.1.0`) — code complete, pending your Google
+      Cloud setup for a live end-to-end run (see setup section above)
 - [ ] Email + Telegram notifications
 - [ ] GitHub Actions scheduler + Docker (`v0.2.0`)
 - [ ] Weekly Dashboard tab

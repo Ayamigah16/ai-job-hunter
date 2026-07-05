@@ -4,7 +4,9 @@ from __future__ import annotations
 
 import click
 
+from ai_job_hunter.config_settings import get_settings
 from ai_job_hunter.pipeline import fetch_all, fetch_score_and_dedup
+from ai_job_hunter.pipeline import run as run_pipeline
 from ai_job_hunter.registry import (
     DEFAULT_AGGREGATORS_PATH,
     DEFAULT_COMPANIES_PATH,
@@ -13,6 +15,8 @@ from ai_job_hunter.registry import (
     load_companies,
 )
 from ai_job_hunter.scoring.profile import DEFAULT_SKILLS_PROFILE_PATH, load_scoring_profile
+from ai_job_hunter.sheets.client import SheetsConfigError, get_gspread_client, open_spreadsheet
+from ai_job_hunter.sheets.writer import GoogleSheetsWriter, SheetSchemaError
 
 
 @click.group()
@@ -84,6 +88,40 @@ def fetch(dry_run: bool, score: bool, top: int) -> None:
             f"({job.location_raw or 'n/a'}) "
             f"must={scored.score.matched_must_have} africa={scored.score.africa_friendly_hint}"
         )
+
+
+@cli.command("run")
+def run() -> None:
+    """Fetch, score, dedup, and sync results into the configured Google Sheet."""
+    settings = get_settings()
+    if not settings.google_application_credentials or not settings.google_sheets_spreadsheet_id:
+        raise click.ClickException(
+            "Google Sheets isn't configured — set GOOGLE_APPLICATION_CREDENTIALS and "
+            "GOOGLE_SHEETS_SPREADSHEET_ID in .env. See the README's Google Sheets setup section."
+        )
+
+    companies = load_companies(DEFAULT_COMPANIES_PATH)
+    aggregators = load_aggregators(DEFAULT_AGGREGATORS_PATH)
+    profile = load_scoring_profile(DEFAULT_SKILLS_PROFILE_PATH)
+
+    try:
+        client = get_gspread_client(settings.google_application_credentials)
+        spreadsheet = open_spreadsheet(client, settings.google_sheets_spreadsheet_id)
+        writer = GoogleSheetsWriter(spreadsheet)
+        result = run_pipeline(
+            companies, aggregators, profile, writer, settings.score_threshold_write
+        )
+    except (SheetsConfigError, SheetSchemaError) as exc:
+        raise click.ClickException(str(exc)) from exc
+
+    click.secho(
+        f"Open Roles: {len(result.open_roles.appended)} new, "
+        f"{len(result.open_roles.updated)} updated, "
+        f"{len(result.open_roles.skipped)} below threshold. "
+        f"Target Companies: {len(result.target_companies.appended)} new, "
+        f"{len(result.target_companies.updated)} updated.",
+        fg="green",
+    )
 
 
 if __name__ == "__main__":

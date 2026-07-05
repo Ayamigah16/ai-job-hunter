@@ -40,3 +40,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   relevant, deduped, ranked jobs from the 2,295 raw postings fetched in Phase 2 — including a
   real DevOps role based in Egypt ranking in the top 15, a direct hit for the Africa-hiring
   use case this project exists for.
+- Google Sheets integration (`sheets/schema.py`, `sheets/client.py`, `sheets/writer.py`),
+  `regions.py` (best-effort location -> country/region lookup for the Open Roles sheet), and
+  `pipeline.run` / `ai-job-hunter run`. `GoogleSheetsWriter` (real, gspread-backed) and
+  `FakeSheetsWriter` (in-memory test double) share the same row-building logic, so unit tests
+  against the fake are meaningful evidence of the real writer's behavior. Enforces the
+  non-clobber contract end-to-end: reruns never duplicate rows (job identity recomputed from
+  each existing row's own cells, see ADR-0003) and never overwrite a user-edited Status/Notes or
+  a curated Target Companies field. Worksheet headers are validated against `sheets/schema.py`
+  at sync time and fail loudly on drift. Code is fully unit-tested (158 tests) but not yet
+  live-verified against a real spreadsheet — that requires a one-time Google Cloud service
+  account setup documented in the README.
