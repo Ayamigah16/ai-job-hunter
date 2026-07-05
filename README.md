@@ -4,7 +4,8 @@ An automated pipeline that discovers, filters, scores, and tracks remote
 DevOps / Platform / SRE / Cloud / DevSecOps job openings across company career pages and job
 aggregators, writing results into a Google Sheet and notifying on high-match new roles.
 
-> Status: early build-out, in progress. See [CHANGELOG.md](CHANGELOG.md) for what's landed and
+> Status: **live in production** — the full fetch → filter → score → dedup → Google Sheets sync
+> pipeline runs daily via GitHub Actions. See [CHANGELOG.md](CHANGELOG.md) for what's landed and
 > the roadmap below for what's next.
 
 ## Why this exists
@@ -143,12 +144,12 @@ add a company or a new ATS adapter.
 - [x] ATS adapters (Greenhouse, Lever, Ashby, Workable, SmartRecruiters, BambooHR, Recruitee,
       Personio) + aggregator adapters
 - [x] Scoring engine + cross-source dedup
-- [x] Google Sheets integration (MVP milestone, `v0.1.0`) — code complete, pending your Google
-      Cloud setup for a live end-to-end run (see setup section above)
-- [x] Email + Telegram notifications — code complete, pending your bot token/SMTP setup for a
-      live test (see setup section above)
-- [x] GitHub Actions scheduler + Docker (`v0.2.0`) — code complete and Docker image verified
-      locally end-to-end; the daily schedule needs repo secrets configured (see setup above)
+- [x] Google Sheets integration (MVP milestone, `v0.1.0`) — **live-verified**: a real
+      `ai-job-hunter run` synced successfully against a real spreadsheet via GitHub Actions
+- [x] Email + Telegram notifications — code complete; live delivery depends on which
+      channel(s) you configured (see setup section above)
+- [x] GitHub Actions scheduler + Docker (`v0.2.0`) — **live-verified**: the scheduled workflow
+      completed a full fetch → score → sync run successfully in production
 - [x] Weekly Dashboard tab
 - [x] Hardening: retries, structured logging, mypy, coverage gate, gitleaks, CONTRIBUTING.md
 - [ ] Grow company registry toward 100-300 companies (ongoing, config-only)
