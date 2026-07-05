@@ -29,9 +29,18 @@ def get_gspread_client(credentials_path: str) -> gspread.Client:
 
 
 def open_spreadsheet(client: gspread.Client, spreadsheet_id: str) -> gspread.Spreadsheet:
+    # gspread's open_by_key doesn't just raise APIError - for a 403 it catches
+    # that internally and re-raises the builtin PermissionError, and for a
+    # 404 its own SpreadsheetNotFound. All three mean the same thing here:
+    # wrong id, or the sheet isn't shared with the service account.
+    sheet_errors = (
+        gspread.exceptions.APIError,
+        PermissionError,
+        gspread.exceptions.SpreadsheetNotFound,
+    )
     try:
         return client.open_by_key(spreadsheet_id)
-    except gspread.exceptions.APIError as exc:
+    except sheet_errors as exc:
         raise SheetsConfigError(
             f"Couldn't open spreadsheet {spreadsheet_id!r} — check the id and that the "
             "spreadsheet is shared with the service account's client_email as an Editor."
