@@ -19,6 +19,7 @@ from ai_job_hunter.scoring.profile import ScoringProfile
 from ai_job_hunter.scoring.scorer import score_job
 
 if TYPE_CHECKING:
+    from ai_job_hunter.notifiers.dispatcher import NotifierDispatcher
     from ai_job_hunter.sheets.writer import SheetsWriter, SyncResult
 
 
@@ -93,10 +94,26 @@ def run(
     profile: ScoringProfile,
     writer: SheetsWriter,
     score_threshold: float,
+    notify_threshold: float = float("inf"),
+    notifier: NotifierDispatcher | None = None,
     session: RateLimitedSession | None = None,
 ) -> RunResult:
-    """The full pipeline: fetch, filter, dedup, score, then sync into the sheet."""
+    """The full pipeline: fetch, filter, dedup, score, sync, then notify.
+
+    Notifications fire only for jobs newly appended THIS run (never for rows
+    that already existed) — "already notified" is structural, not a separate
+    log; see docs/adr/0003 for the tradeoff this implies.
+    """
     scored_jobs = fetch_score_and_dedup(companies, aggregators, profile, session=session)
     open_roles_result = writer.sync_open_roles(scored_jobs, score_threshold)
     target_companies_result = writer.sync_target_companies(companies)
+
+    if notifier is not None:
+        notifiable = [
+            scored
+            for scored in open_roles_result.appended
+            if scored.score.total_score >= notify_threshold
+        ]
+        notifier.notify(notifiable)
+
     return RunResult(open_roles=open_roles_result, target_companies=target_companies_result)

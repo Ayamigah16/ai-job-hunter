@@ -82,6 +82,25 @@ ai-job-hunter fetch --dry-run --score --top 20
    `GOOGLE_SHEETS_SPREADSHEET_ID=<the id from step 1>`.
 5. Run `ai-job-hunter run`.
 
+## Notifications setup (optional)
+
+`ai-job-hunter run` sends a summary via Telegram and/or email for newly-appended jobs scoring at
+or above `SCORE_THRESHOLD_NOTIFY` (default 70) in `.env`. Both are optional and independent —
+configure one, both, or neither (with neither configured, `run` still syncs the sheet, it just
+skips notifications and tells you so).
+
+**Telegram**: message [@BotFather](https://t.me/BotFather) with `/newbot` and follow the prompts
+to get a bot token. Then message your new bot anything, and fetch
+`https://api.telegram.org/bot<token>/getUpdates` in a browser to find your numeric chat id in the
+response. Set `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in `.env`.
+
+**Email**: uses plain SMTP. For Gmail, create an
+[app password](https://myaccount.google.com/apppasswords) (regular passwords won't work with
+2FA enabled) and set `SMTP_HOST=smtp.gmail.com`, `SMTP_PORT=587`, `SMTP_USERNAME` (your Gmail
+address), `SMTP_PASSWORD` (the app password), and optionally `NOTIFY_EMAIL_FROM`/
+`NOTIFY_EMAIL_TO` if they differ from `SMTP_USERNAME`. Any other SMTP provider (Outlook,
+SendGrid's SMTP relay, etc.) works the same way — just change `SMTP_HOST`/`SMTP_PORT`.
+
 ## Project layout
 
 See `src/ai_job_hunter/` for the package; `config/` holds data (company registry, skills
@@ -98,7 +117,8 @@ default) hits real endpoints.
 - [x] Scoring engine + cross-source dedup
 - [x] Google Sheets integration (MVP milestone, `v0.1.0`) — code complete, pending your Google
       Cloud setup for a live end-to-end run (see setup section above)
-- [ ] Email + Telegram notifications
+- [x] Email + Telegram notifications — code complete, pending your bot token/SMTP setup for a
+      live test (see setup section above)
 - [ ] GitHub Actions scheduler + Docker (`v0.2.0`)
 - [ ] Weekly Dashboard tab
 - [ ] Hardening: retries, structured logging, mypy, coverage gate

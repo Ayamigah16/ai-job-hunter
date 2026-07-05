@@ -5,6 +5,9 @@ from __future__ import annotations
 import click
 
 from ai_job_hunter.config_settings import get_settings
+from ai_job_hunter.notifiers.dispatcher import NotifierDispatcher
+from ai_job_hunter.notifiers.email_notifier import EmailNotifier
+from ai_job_hunter.notifiers.telegram_notifier import TelegramNotifier
 from ai_job_hunter.pipeline import fetch_all, fetch_score_and_dedup
 from ai_job_hunter.pipeline import run as run_pipeline
 from ai_job_hunter.registry import (
@@ -17,6 +20,27 @@ from ai_job_hunter.registry import (
 from ai_job_hunter.scoring.profile import DEFAULT_SKILLS_PROFILE_PATH, load_scoring_profile
 from ai_job_hunter.sheets.client import SheetsConfigError, get_gspread_client, open_spreadsheet
 from ai_job_hunter.sheets.writer import GoogleSheetsWriter, SheetSchemaError
+
+
+def _build_notifier(settings) -> NotifierDispatcher | None:
+    notifiers = []
+
+    if settings.telegram_bot_token and settings.telegram_chat_id:
+        notifiers.append(TelegramNotifier(settings.telegram_bot_token, settings.telegram_chat_id))
+
+    if settings.smtp_host and settings.smtp_username and settings.smtp_password:
+        notifiers.append(
+            EmailNotifier(
+                settings.smtp_host,
+                settings.smtp_port,
+                settings.smtp_username,
+                settings.smtp_password,
+                settings.notify_email_from or settings.smtp_username,
+                settings.notify_email_to or settings.smtp_username,
+            )
+        )
+
+    return NotifierDispatcher(notifiers) if notifiers else None
 
 
 @click.group()
@@ -104,12 +128,25 @@ def run() -> None:
     aggregators = load_aggregators(DEFAULT_AGGREGATORS_PATH)
     profile = load_scoring_profile(DEFAULT_SKILLS_PROFILE_PATH)
 
+    notifier = _build_notifier(settings)
+    if notifier is None:
+        click.secho(
+            "No Telegram/email credentials configured — running without notifications.",
+            fg="yellow",
+        )
+
     try:
         client = get_gspread_client(settings.google_application_credentials)
         spreadsheet = open_spreadsheet(client, settings.google_sheets_spreadsheet_id)
         writer = GoogleSheetsWriter(spreadsheet)
         result = run_pipeline(
-            companies, aggregators, profile, writer, settings.score_threshold_write
+            companies,
+            aggregators,
+            profile,
+            writer,
+            settings.score_threshold_write,
+            notify_threshold=settings.score_threshold_notify,
+            notifier=notifier,
         )
     except (SheetsConfigError, SheetSchemaError) as exc:
         raise click.ClickException(str(exc)) from exc

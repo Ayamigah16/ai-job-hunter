@@ -51,3 +51,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   at sync time and fail loudly on drift. Code is fully unit-tested (158 tests) but not yet
   live-verified against a real spreadsheet — that requires a one-time Google Cloud service
   account setup documented in the README.
+- Notifications (`notifiers/base.py`, `email_notifier.py`, `telegram_notifier.py`,
+  `dispatcher.py`): `NotifierDispatcher` fans out to Telegram and/or SMTP email, isolating one
+  channel's failure from the other. Wired into `pipeline.run` so a summary fires only for jobs
+  newly appended THIS run and scoring at or above `SCORE_THRESHOLD_NOTIFY` — an immediate rerun
+  with no new jobs sends nothing, since "already notified" is structural (see ADR-0003). `run`
+  works with zero, one, or both channels configured. 168 unit tests total (SMTP/HTTP calls
+  mocked); live delivery is pending your Telegram bot token / SMTP credentials, documented in
+  the README's Notifications setup section.
