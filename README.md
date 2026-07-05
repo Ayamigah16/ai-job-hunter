@@ -15,7 +15,7 @@ filtering, and gives a single spreadsheet as the source of truth for application
 
 ## How it works (target architecture)
 
-```
+```text
 company career pages (ATS APIs)  ─┐
 job aggregators (APIs / RSS)     ─┼─▶ adapters ─▶ filter + score ─▶ dedup ─▶ Google Sheet ─▶ notify
                                   ─┘                                              │
@@ -61,7 +61,7 @@ default) hits real endpoints.
 ## Roadmap
 
 - [x] Project scaffold, CI, docs structure
-- [ ] Core models + config loader + seed company registry
+- [x] Core models + config loader + seed company registry
 - [ ] ATS adapters (Greenhouse, Lever, Ashby, Workable, SmartRecruiters, BambooHR, Recruitee,
       Personio) + aggregator adapters
 - [ ] Scoring engine + cross-source dedup

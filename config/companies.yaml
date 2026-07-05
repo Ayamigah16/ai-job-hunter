@@ -1,0 +1,219 @@
+# Company registry — DATA, not code. Add companies here; no src/ changes needed.
+#
+# Every board_token below was live-verified against the source API on 2026-07-05
+# (see docs/adr/0002-ats-adapter-abstraction.md once Phase 2 lands). When adding a
+# new entry, verify the token yourself first — generic slugs can silently 404 or,
+# worse, resolve to an unrelated company of the same name on the same ATS.
+#
+# ats_type: unsupported means the company is tracked (e.g. for the Target
+# Companies sheet) but its real ATS (Workday, Teamtailor, in-house, ...) has no
+# adapter yet — see the `notes` field for what it actually uses.
+
+- name: GitLab
+  slug: gitlab
+  ats_type: greenhouse
+  board_token: gitlab
+  industry: DevOps / SaaS
+  hires_in_africa: unknown
+  priority: high
+
+- name: Cloudflare
+  slug: cloudflare
+  ats_type: greenhouse
+  board_token: cloudflare
+  industry: Cloud / Edge Network
+  hires_in_africa: unknown
+  priority: high
+
+- name: Datadog
+  slug: datadog
+  ats_type: greenhouse
+  board_token: datadog
+  industry: Observability / Monitoring
+  hires_in_africa: unknown
+  priority: high
+
+- name: Grafana Labs
+  slug: grafana-labs
+  ats_type: greenhouse
+  board_token: grafanalabs
+  industry: Observability / Monitoring
+  hires_in_africa: unknown
+  priority: high
+
+- name: Elastic
+  slug: elastic
+  ats_type: greenhouse
+  board_token: elastic
+  industry: Search / Observability
+  hires_in_africa: unknown
+  priority: medium
+
+- name: Canonical
+  slug: canonical
+  ats_type: greenhouse
+  board_token: canonical
+  industry: Linux / Cloud Infrastructure
+  hires_in_africa: unknown
+  priority: high
+  notes: "Well known for fully-remote, globally distributed hiring."
+
+- name: Vercel
+  slug: vercel
+  ats_type: greenhouse
+  board_token: vercel
+  industry: Frontend Cloud / Platform
+  hires_in_africa: unknown
+  priority: medium
+
+- name: PlanetScale
+  slug: planetscale
+  ats_type: greenhouse
+  board_token: planetscale
+  industry: Database Platform
+  hires_in_africa: unknown
+  priority: medium
+
+- name: Pulumi
+  slug: pulumi
+  ats_type: greenhouse
+  board_token: pulumicorporation
+  industry: Infrastructure as Code
+  hires_in_africa: unknown
+  priority: medium
+
+- name: Chainguard
+  slug: chainguard
+  ats_type: greenhouse
+  board_token: chainguard
+  industry: Supply Chain Security
+  hires_in_africa: unknown
+  priority: medium
+
+- name: Wiz
+  slug: wiz
+  ats_type: greenhouse
+  board_token: wizinc
+  industry: Cloud Security
+  hires_in_africa: unknown
+  priority: medium
+
+- name: Supabase
+  slug: supabase
+  ats_type: ashby
+  board_token: supabase
+  industry: Backend-as-a-Service
+  hires_in_africa: unknown
+  priority: high
+
+- name: Kong
+  slug: kong
+  ats_type: ashby
+  board_token: kong
+  industry: API Platform
+  hires_in_africa: unknown
+  priority: medium
+
+- name: Render
+  slug: render
+  ats_type: ashby
+  board_token: render
+  industry: Cloud Platform
+  hires_in_africa: unknown
+  priority: high
+
+- name: Railway
+  slug: railway
+  ats_type: ashby
+  board_token: railway
+  industry: Cloud Platform
+  hires_in_africa: unknown
+  priority: medium
+
+- name: Temporal
+  slug: temporal
+  ats_type: ashby
+  board_token: temporal
+  industry: Workflow Orchestration
+  hires_in_africa: unknown
+  priority: medium
+
+- name: Astronomer
+  slug: astronomer
+  ats_type: ashby
+  board_token: astronomer
+  industry: Data Orchestration (Airflow)
+  hires_in_africa: unknown
+  priority: medium
+
+- name: Docker
+  slug: docker
+  ats_type: ashby
+  board_token: docker
+  industry: Developer Tools / Containers
+  hires_in_africa: unknown
+  priority: high
+
+- name: HashiCorp
+  slug: hashicorp
+  ats_type: workable
+  board_token: hashicorp
+  industry: Infrastructure as Code
+  hires_in_africa: unknown
+  priority: high
+
+- name: GitGuardian
+  slug: gitguardian
+  ats_type: workable
+  board_token: gitguardian
+  industry: Secrets Detection / AppSec
+  hires_in_africa: unknown
+  priority: medium
+
+- name: DigitalOcean
+  slug: digitalocean
+  ats_type: unsupported
+  industry: Cloud Platform
+  hires_in_africa: unknown
+  priority: high
+  notes: "Careers site is a client-rendered app; no public ATS API identified yet."
+
+- name: Red Hat
+  slug: red-hat
+  ats_type: unsupported
+  industry: Enterprise Linux / Open Source
+  hires_in_africa: unknown
+  priority: medium
+  notes: "Uses Workday (redhat.wd5.myworkdayjobs.com) — no adapter yet."
+
+- name: CrowdStrike
+  slug: crowdstrike
+  ats_type: unsupported
+  industry: Security
+  hires_in_africa: unknown
+  priority: low
+  notes: "Uses Workday (crowdstrike.wd5.myworkdayjobs.com) — no adapter yet."
+
+- name: Civo
+  slug: civo
+  ats_type: unsupported
+  industry: Cloud Platform (Kubernetes)
+  hires_in_africa: unknown
+  priority: medium
+  notes: "Uses Teamtailor — no adapter yet."
+
+- name: Automattic
+  slug: automattic
+  ats_type: unsupported
+  industry: WordPress / Distributed Work
+  hires_in_africa: unknown
+  priority: medium
+  notes: "In-house careers board, no third-party ATS API identified. Famous for fully distributed/remote-first hiring."
+
+- name: Snyk
+  slug: snyk
+  ats_type: unsupported
+  industry: Developer Security
+  hires_in_africa: unknown
+  priority: low
+  notes: "Historical Greenhouse token 'snyk' is now deactivated/migrated; re-verify before enabling."
