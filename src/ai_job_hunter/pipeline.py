@@ -6,6 +6,9 @@ module in later phases — for now it's fetch-only.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+from typing import TYPE_CHECKING
+
 from ai_job_hunter.adapters.base import RateLimitedSession
 from ai_job_hunter.adapters.registry_map import AGGREGATOR_ADAPTERS, ATS_ADAPTERS
 from ai_job_hunter.dedup import compute_job_id, dedup_jobs
@@ -14,6 +17,9 @@ from ai_job_hunter.registry import AggregatorEntry, CompanyEntry
 from ai_job_hunter.scoring.filters import is_relevant
 from ai_job_hunter.scoring.profile import ScoringProfile
 from ai_job_hunter.scoring.scorer import score_job
+
+if TYPE_CHECKING:
+    from ai_job_hunter.sheets.writer import SheetsWriter, SyncResult
 
 
 def fetch_all(
@@ -73,3 +79,24 @@ def fetch_score_and_dedup(
     ]
     scored_jobs.sort(key=lambda scored: scored.score.total_score, reverse=True)
     return scored_jobs
+
+
+@dataclass
+class RunResult:
+    open_roles: SyncResult
+    target_companies: SyncResult
+
+
+def run(
+    companies: list[CompanyEntry],
+    aggregators: list[AggregatorEntry],
+    profile: ScoringProfile,
+    writer: SheetsWriter,
+    score_threshold: float,
+    session: RateLimitedSession | None = None,
+) -> RunResult:
+    """The full pipeline: fetch, filter, dedup, score, then sync into the sheet."""
+    scored_jobs = fetch_score_and_dedup(companies, aggregators, profile, session=session)
+    open_roles_result = writer.sync_open_roles(scored_jobs, score_threshold)
+    target_companies_result = writer.sync_target_companies(companies)
+    return RunResult(open_roles=open_roles_result, target_companies=target_companies_result)
