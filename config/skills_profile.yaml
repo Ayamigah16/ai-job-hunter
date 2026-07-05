@@ -1,0 +1,90 @@
+# Scoring profile — DATA, not code (loaded by scoring/profile.py in Phase 3).
+#
+# This is a reasonable DevOps/Platform/SRE/Cloud starting default, not tailored to
+# your actual resume yet. Tune the keyword lists and weights to match your real
+# skills/seniority — the scoring engine just reads this file, no code changes needed.
+
+role_title_keywords:
+  - platform engineer
+  - devops engineer
+  - cloud engineer
+  - site reliability engineer
+  - sre
+  - infrastructure engineer
+  - platform reliability engineer
+  - devsecops engineer
+  - kubernetes engineer
+  - release engineer
+  - cloud automation engineer
+  - infrastructure automation engineer
+  - solutions engineer, cloud
+  - backend infrastructure engineer
+
+must_have_skills:
+  - kubernetes
+  - docker
+  - terraform
+  - ci/cd
+  - linux
+
+nice_to_have_skills:
+  - aws
+  - gcp
+  - azure
+  - ansible
+  - prometheus
+  - grafana
+  - helm
+  - argocd
+  - gitops
+  - python
+  - go
+  - bash
+  - github actions
+  - gitlab ci
+  - jenkins
+  - istio
+  - service mesh
+  - observability
+  - sre practices
+  - incident response
+  - vault
+  - security scanning
+  - sbom
+
+seniority: mid-senior   # informational only for now; not yet used to filter
+
+sponsorship_keywords:
+  - visa sponsorship
+  - work permit
+  - relocation assistance
+  - h1b
+
+remote_positive_keywords:
+  - remote
+  - work from anywhere
+  - fully distributed
+  - anywhere in the world
+  - global remote
+
+africa_friendly_positive_keywords:
+  - remote - global
+  - remote (worldwide)
+  - anywhere
+  - emea
+  - africa
+
+africa_friendly_negative_keywords:
+  - us only
+  - us-based only
+  - must reside in the united states
+  - eu residents only
+  - must be authorized to work in the us without sponsorship
+
+weights:
+  must_have_match: 10
+  nice_to_have_match: 3
+  role_title_match: 15
+  remote_positive: 10
+  salary_disclosed: 5
+  sponsorship_mentioned: 5

@@ -1,0 +1,29 @@
+# Standalone job aggregator sources — not tied to a single company.
+# search_terms are OR'd together; category is passed through server-side where
+# the source supports it (cheaper than downloading everything and filtering locally).
+
+- name: RemoteOK
+  source_type: remoteok
+  enabled: true
+  search_terms: [devops, platform, sre, "site reliability", kubernetes, cloud, infrastructure]
+
+- name: Arbeitnow
+  source_type: arbeitnow
+  enabled: true
+  search_terms: [devops, platform, sre, kubernetes, cloud, infrastructure]
+
+- name: Remotive
+  source_type: remotive
+  enabled: true
+  category: devops
+  search_terms: [devops, platform, sre, kubernetes, cloud]
+
+- name: Himalayas
+  source_type: himalayas
+  enabled: true
+  search_terms: [devops, platform engineer, site reliability, cloud engineer, infrastructure]
+
+- name: We Work Remotely
+  source_type: weworkremotely
+  enabled: true
+  category: remote-devops-sysadmin-jobs
