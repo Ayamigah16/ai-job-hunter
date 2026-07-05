@@ -8,8 +8,12 @@ from __future__ import annotations
 
 from ai_job_hunter.adapters.base import RateLimitedSession
 from ai_job_hunter.adapters.registry_map import AGGREGATOR_ADAPTERS, ATS_ADAPTERS
-from ai_job_hunter.models import JobPosting
+from ai_job_hunter.dedup import compute_job_id, dedup_jobs
+from ai_job_hunter.models import JobPosting, ScoredJob
 from ai_job_hunter.registry import AggregatorEntry, CompanyEntry
+from ai_job_hunter.scoring.filters import is_relevant
+from ai_job_hunter.scoring.profile import ScoringProfile
+from ai_job_hunter.scoring.scorer import score_job
 
 
 def fetch_all(
@@ -41,3 +45,31 @@ def fetch_all(
         results[aggregator.name] = adapter_cls(session=session).fetch_and_parse(aggregator)
 
     return results
+
+
+def fetch_score_and_dedup(
+    companies: list[CompanyEntry],
+    aggregators: list[AggregatorEntry],
+    profile: ScoringProfile,
+    session: RateLimitedSession | None = None,
+) -> list[ScoredJob]:
+    """Fetch every source, keep only relevant postings, dedup, score, rank.
+
+    Ranked descending by score.total_score. Sheet-write/notify are Phase 4/5
+    concerns layered on top of this, not part of it.
+    """
+    results = fetch_all(companies, aggregators, session=session)
+    all_jobs = [job for jobs in results.values() for job in jobs]
+    relevant_jobs = [job for job in all_jobs if is_relevant(job, profile)]
+    deduped_jobs = dedup_jobs(relevant_jobs)
+
+    scored_jobs = [
+        ScoredJob(
+            job=job,
+            score=score_job(job, profile),
+            job_id=compute_job_id(job.company, job.title, job.url),
+        )
+        for job in deduped_jobs
+    ]
+    scored_jobs.sort(key=lambda scored: scored.score.total_score, reverse=True)
+    return scored_jobs
