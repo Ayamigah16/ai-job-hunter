@@ -152,7 +152,8 @@ add a company or a new ATS adapter.
       completed a full fetch → score → sync run successfully in production
 - [x] Weekly Dashboard tab
 - [x] Hardening: retries, structured logging, mypy, coverage gate, gitleaks, CONTRIBUTING.md
-- [ ] Grow company registry toward 100-300 companies (ongoing, config-only)
+- [x] Grow company registry toward 100-300 companies — 117 companies (94 fetchable, 23
+      tracked-only pending future adapters), ongoing config-only work per CONTRIBUTING.md
 - [ ] **Deferred**: AI-generated tailored CVs and cover letters
 - [ ] **Deprioritized**: Wellfound/AngelList and LinkedIn (no public API; scraping-only, higher
       maintenance/ToS risk — revisit only if the above sources prove insufficient)

@@ -226,3 +226,655 @@
   hires_in_africa: unknown
   priority: low
   notes: "Historical Greenhouse token 'snyk' is now deactivated/migrated; re-verify before enabling."
+
+# --- Batch 2: expansion toward 100-300 target (2026-07-05) ---
+# All board tokens live-verified against real endpoints (job content cross-
+# checked against company name, not just HTTP 200) except where noted.
+
+- name: Sentry
+  slug: sentry
+  ats_type: ashby
+  board_token: sentry
+  industry: Error Monitoring / Observability
+  hires_in_africa: unknown
+  priority: medium
+- name: Honeycomb
+  slug: honeycomb
+  ats_type: greenhouse
+  board_token: honeycomb
+  industry: Observability
+  hires_in_africa: unknown
+  priority: medium
+- name: LaunchDarkly
+  slug: launchdarkly
+  ats_type: greenhouse
+  board_token: launchdarkly
+  industry: Feature Management
+  hires_in_africa: unknown
+  priority: medium
+- name: New Relic
+  slug: new-relic
+  ats_type: greenhouse
+  board_token: newrelic
+  industry: Observability
+  hires_in_africa: unknown
+  priority: medium
+- name: SmartBear
+  slug: smartbear
+  ats_type: greenhouse
+  board_token: smartbear
+  industry: Developer Tools / QA (owns Bugsnag)
+  hires_in_africa: unknown
+  priority: medium
+  notes: Shared board covers all SmartBear products including Bugsnag.
+- name: Chronosphere
+  slug: chronosphere
+  ats_type: ashby
+  board_token: chronospherejobs
+  industry: Observability
+  hires_in_africa: unknown
+  priority: medium
+  notes: 0 open jobs at verification time; token confirmed via live API.
+- name: Statsig
+  slug: statsig
+  ats_type: ashby
+  board_token: statsig
+  industry: Feature Flags / Experimentation
+  hires_in_africa: unknown
+  priority: medium
+  notes: Careers page live but public posting API currently 404s; kept for when it's
+    re-enabled.
+- name: Orca Security
+  slug: orca-security
+  ats_type: greenhouse
+  board_token: orcasecurity
+  industry: Cloud Security
+  hires_in_africa: unknown
+  priority: medium
+- name: Sysdig
+  slug: sysdig
+  ats_type: lever
+  board_token: sysdig
+  industry: Cloud Security / Observability
+  hires_in_africa: unknown
+  priority: medium
+- name: JFrog
+  slug: jfrog
+  ats_type: greenhouse
+  board_token: jfrog
+  industry: DevOps / Artifact Management
+  hires_in_africa: unknown
+  priority: medium
+- name: 1Password
+  slug: 1password
+  ats_type: ashby
+  board_token: 1password
+  industry: Security / Password Management
+  hires_in_africa: unknown
+  priority: medium
+- name: Okta
+  slug: okta
+  ats_type: greenhouse
+  board_token: okta
+  industry: Identity Security (incl. Auth0)
+  hires_in_africa: unknown
+  priority: medium
+- name: Teleport
+  slug: teleport
+  ats_type: ashby
+  board_token: goteleport
+  industry: Infrastructure Access / Security
+  hires_in_africa: unknown
+  priority: medium
+- name: WorkOS
+  slug: workos
+  ats_type: ashby
+  board_token: workos
+  industry: Identity / Auth Infrastructure
+  hires_in_africa: unknown
+  priority: medium
+- name: Clerk
+  slug: clerk
+  ats_type: workable
+  board_token: clerk-dev
+  industry: Identity / Auth Infrastructure
+  hires_in_africa: unknown
+  priority: medium
+  notes: 0 open jobs at verification time; account identity confirmed.
+- name: Vanta
+  slug: vanta
+  ats_type: ashby
+  board_token: vanta
+  industry: Security Compliance Automation
+  hires_in_africa: unknown
+  priority: medium
+- name: CircleCI
+  slug: circleci
+  ats_type: greenhouse
+  board_token: circleci
+  industry: CI/CD
+  hires_in_africa: unknown
+  priority: medium
+- name: Harness
+  slug: harness
+  ats_type: greenhouse
+  board_token: harnessinc
+  industry: CI/CD / DevOps Platform
+  hires_in_africa: unknown
+  priority: medium
+- name: Buildkite
+  slug: buildkite
+  ats_type: greenhouse
+  board_token: buildkite
+  industry: CI/CD
+  hires_in_africa: unknown
+  priority: medium
+- name: Semaphore CI
+  slug: semaphore-ci
+  ats_type: workable
+  board_token: semaphore
+  industry: CI/CD
+  hires_in_africa: unknown
+  priority: medium
+  notes: 0 open jobs at verification time; account identity confirmed.
+- name: Octopus Deploy
+  slug: octopus-deploy
+  ats_type: greenhouse
+  board_token: octopusdeploy
+  industry: Deployment Automation (incl. Codefresh)
+  hires_in_africa: unknown
+  priority: medium
+- name: Cortex
+  slug: cortex
+  ats_type: greenhouse
+  board_token: cortex
+  industry: Internal Developer Portal
+  hires_in_africa: unknown
+  priority: medium
+- name: Humanitec
+  slug: humanitec
+  ats_type: ashby
+  board_token: humanitec
+  industry: Internal Developer Platform
+  hires_in_africa: unknown
+  priority: medium
+  notes: 0 open jobs at verification time; token confirmed via live API.
+- name: Fivetran
+  slug: fivetran
+  ats_type: greenhouse
+  board_token: fivetran
+  industry: Data Integration
+  hires_in_africa: unknown
+  priority: medium
+- name: Airbyte
+  slug: airbyte
+  ats_type: ashby
+  board_token: airbyte
+  industry: Data Integration
+  hires_in_africa: unknown
+  priority: medium
+- name: dbt Labs
+  slug: dbt-labs
+  ats_type: greenhouse
+  board_token: dbtlabsinc
+  industry: Data Transformation
+  hires_in_africa: unknown
+  priority: medium
+  notes: 0 open jobs at verification time; token confirmed via live board page.
+- name: Prefect
+  slug: prefect
+  ats_type: ashby
+  board_token: prefect
+  industry: Data Orchestration
+  hires_in_africa: unknown
+  priority: medium
+- name: Dagster
+  slug: dagster
+  ats_type: greenhouse
+  board_token: dagsterlabs
+  industry: Data Orchestration
+  hires_in_africa: unknown
+  priority: medium
+  notes: Valid Greenhouse account but 0 open jobs at verification time (lower confidence,
+    no job content to cross-check).
+- name: Monte Carlo
+  slug: monte-carlo
+  ats_type: ashby
+  board_token: montecarlodata
+  industry: Data Observability
+  hires_in_africa: unknown
+  priority: medium
+- name: MongoDB
+  slug: mongodb
+  ats_type: greenhouse
+  board_token: mongodb
+  industry: Database Platform
+  hires_in_africa: unknown
+  priority: medium
+- name: Redis
+  slug: redis
+  ats_type: ashby
+  board_token: redis
+  industry: Database / Caching
+  hires_in_africa: unknown
+  priority: medium
+- name: Couchbase
+  slug: couchbase
+  ats_type: greenhouse
+  board_token: couchbaseinc
+  industry: Database Platform
+  hires_in_africa: unknown
+  priority: medium
+- name: Aiven
+  slug: aiven
+  ats_type: greenhouse
+  board_token: aiven36
+  industry: Managed Data Infrastructure
+  hires_in_africa: unknown
+  priority: medium
+- name: CoreWeave
+  slug: coreweave
+  ats_type: greenhouse
+  board_token: coreweave
+  industry: GPU Cloud (incl. Weights & Biases)
+  hires_in_africa: unknown
+  priority: medium
+- name: Postman
+  slug: postman
+  ats_type: greenhouse
+  board_token: postman
+  industry: API Platform
+  hires_in_africa: unknown
+  priority: medium
+- name: Retool
+  slug: retool
+  ats_type: greenhouse
+  board_token: retool
+  industry: Internal Tools Platform
+  hires_in_africa: unknown
+  priority: medium
+  notes: Board may currently be inactive (0 jobs) but token structurally valid; adapter
+    handles gracefully.
+- name: n8n
+  slug: n8n
+  ats_type: ashby
+  board_token: n8n
+  industry: Workflow Automation
+  hires_in_africa: unknown
+  priority: medium
+- name: Fastly
+  slug: fastly
+  ats_type: greenhouse
+  board_token: fastly
+  industry: Edge / CDN
+  hires_in_africa: unknown
+  priority: medium
+- name: Netlify
+  slug: netlify
+  ats_type: greenhouse
+  board_token: netlify
+  industry: Frontend Cloud / Platform
+  hires_in_africa: unknown
+  priority: medium
+- name: WunderGraph
+  slug: wundergraph
+  ats_type: ashby
+  board_token: wundergraph
+  industry: API Platform
+  hires_in_africa: unknown
+  priority: medium
+- name: Zapier
+  slug: zapier
+  ats_type: ashby
+  board_token: zapier
+  industry: Workflow Automation
+  hires_in_africa: unknown
+  priority: medium
+- name: Twilio
+  slug: twilio
+  ats_type: greenhouse
+  board_token: twilio
+  industry: Communications API (incl. Segment)
+  hires_in_africa: unknown
+  priority: medium
+- name: Solo.io
+  slug: solo-io
+  ats_type: greenhouse
+  board_token: soloioinc
+  industry: Service Mesh / API Gateway
+  hires_in_africa: unknown
+  priority: medium
+- name: Tyk
+  slug: tyk
+  ats_type: workable
+  board_token: tyk-technologies
+  industry: API Gateway
+  hires_in_africa: unknown
+  priority: medium
+- name: vCluster (Loft Labs)
+  slug: vcluster
+  ats_type: ashby
+  board_token: vClusterLabs
+  industry: Kubernetes Virtualization
+  hires_in_africa: unknown
+  priority: medium
+- name: Wise
+  slug: wise
+  ats_type: workable
+  board_token: transferwise
+  industry: Fintech / Payments
+  hires_in_africa: unknown
+  priority: medium
+  notes: 0 open jobs at verification time; account identity confirmed (legal name
+    TransferWise).
+- name: Monzo
+  slug: monzo
+  ats_type: greenhouse
+  board_token: monzo
+  industry: Fintech / Digital Banking
+  hires_in_africa: unknown
+  priority: medium
+- name: Revolut
+  slug: revolut
+  ats_type: workable
+  board_token: revolut
+  industry: Fintech / Digital Banking
+  hires_in_africa: unknown
+  priority: medium
+- name: Skyscanner
+  slug: skyscanner
+  ats_type: greenhouse
+  board_token: skyscanner
+  industry: Travel Tech
+  hires_in_africa: unknown
+  priority: medium
+- name: Intercom
+  slug: intercom
+  ats_type: greenhouse
+  board_token: intercom
+  industry: Customer Messaging Platform
+  hires_in_africa: unknown
+  priority: medium
+- name: GoCardless
+  slug: gocardless
+  ats_type: greenhouse
+  board_token: gocardless
+  industry: Fintech / Payments
+  hires_in_africa: unknown
+  priority: medium
+- name: Deliveroo
+  slug: deliveroo
+  ats_type: ashby
+  board_token: deliveroo
+  industry: Food Delivery / Logistics Tech
+  hires_in_africa: unknown
+  priority: medium
+- name: Griffin
+  slug: griffin
+  ats_type: ashby
+  board_token: griffin
+  industry: Banking-as-a-Service
+  hires_in_africa: unknown
+  priority: medium
+- name: Paddle
+  slug: paddle
+  ats_type: ashby
+  board_token: paddle
+  industry: Payments / Billing Infrastructure
+  hires_in_africa: unknown
+  priority: medium
+- name: N26
+  slug: n26
+  ats_type: greenhouse
+  board_token: n26
+  industry: Fintech / Digital Banking
+  hires_in_africa: unknown
+  priority: medium
+- name: Celonis
+  slug: celonis
+  ats_type: greenhouse
+  board_token: celonis
+  industry: Process Mining / Enterprise Software
+  hires_in_africa: unknown
+  priority: medium
+- name: Contentful
+  slug: contentful
+  ats_type: greenhouse
+  board_token: contentful
+  industry: Headless CMS
+  hires_in_africa: unknown
+  priority: medium
+- name: GetYourGuide
+  slug: getyourguide
+  ats_type: greenhouse
+  board_token: getyourguide
+  industry: Travel Tech
+  hires_in_africa: unknown
+  priority: medium
+- name: Trade Republic
+  slug: trade-republic
+  ats_type: greenhouse
+  board_token: traderepublic
+  industry: Fintech / Investing
+  hires_in_africa: unknown
+  priority: medium
+- name: Adyen
+  slug: adyen
+  ats_type: greenhouse
+  board_token: adyen
+  industry: Fintech / Payments
+  hires_in_africa: unknown
+  priority: medium
+- name: Mollie
+  slug: mollie
+  ats_type: ashby
+  board_token: mollie
+  industry: Fintech / Payments
+  hires_in_africa: unknown
+  priority: medium
+- name: Miro
+  slug: miro
+  ats_type: ashby
+  board_token: miro
+  industry: Collaboration Software
+  hires_in_africa: unknown
+  priority: medium
+- name: Buffer
+  slug: buffer
+  ats_type: ashby
+  board_token: buffer
+  industry: Social Media Management
+  hires_in_africa: unknown
+  priority: medium
+- name: Doist
+  slug: doist
+  ats_type: workable
+  board_token: doist
+  industry: Productivity Software
+  hires_in_africa: unknown
+  priority: medium
+- name: Toptal
+  slug: toptal
+  ats_type: lever
+  board_token: toptal
+  industry: Talent Marketplace
+  hires_in_africa: unknown
+  priority: medium
+- name: Help Scout
+  slug: help-scout
+  ats_type: ashby
+  board_token: helpscout
+  industry: Customer Support Software
+  hires_in_africa: unknown
+  priority: medium
+- name: Close
+  slug: close
+  ats_type: ashby
+  board_token: close
+  industry: Sales CRM
+  hires_in_africa: unknown
+  priority: medium
+- name: Ghost
+  slug: ghost
+  ats_type: workable
+  board_token: ghost
+  industry: Publishing Platform (Non-profit)
+  hires_in_africa: unknown
+  priority: medium
+  notes: 0 open jobs at verification time; org identity confirmed via description
+    match.
+- name: DuckDuckGo
+  slug: duckduckgo
+  ats_type: ashby
+  board_token: duck-duck-go
+  industry: Privacy / Search Engine
+  hires_in_africa: unknown
+  priority: medium
+- name: Canva
+  slug: canva
+  ats_type: smartrecruiters
+  board_token: canva
+  industry: Design Platform
+  hires_in_africa: unknown
+  priority: medium
+- name: SafetyCulture
+  slug: safetyculture
+  ats_type: lever
+  board_token: safetyculture-2
+  industry: Workplace Operations Software
+  hires_in_africa: unknown
+  priority: medium
+- name: Xero
+  slug: xero
+  ats_type: ashby
+  board_token: xero
+  industry: Accounting Software
+  hires_in_africa: unknown
+  priority: medium
+- name: Deputy
+  slug: deputy
+  ats_type: lever
+  board_token: deputy
+  industry: Workforce Management
+  hires_in_africa: unknown
+  priority: medium
+- name: Honeybadger
+  slug: honeybadger
+  ats_type: unsupported
+  industry: Error Monitoring
+  hires_in_africa: unknown
+  priority: low
+  notes: No public ATS API identified.
+- name: Rollbar
+  slug: rollbar
+  ats_type: unsupported
+  industry: Error Monitoring
+  hires_in_africa: unknown
+  priority: low
+  notes: No public ATS API identified.
+- name: Splunk
+  slug: splunk
+  ats_type: unsupported
+  industry: Observability / SIEM (Cisco)
+  hires_in_africa: unknown
+  priority: low
+  notes: Uses Jobvite + Cisco careers portal — no adapter yet.
+- name: Aqua Security
+  slug: aqua-security
+  ats_type: unsupported
+  industry: Cloud Security
+  hires_in_africa: unknown
+  priority: low
+  notes: Uses Comeet — no adapter yet.
+- name: Spacelift
+  slug: spacelift
+  ats_type: unsupported
+  industry: Infrastructure as Code
+  hires_in_africa: unknown
+  priority: low
+  notes: Uses Teamtailor — no adapter yet.
+- name: env0
+  slug: env0
+  ats_type: unsupported
+  industry: Infrastructure as Code
+  hires_in_africa: unknown
+  priority: low
+  notes: No embedded job board; applications handled via email.
+- name: Qovery
+  slug: qovery
+  ats_type: unsupported
+  industry: Internal Developer Platform
+  hires_in_africa: unknown
+  priority: low
+  notes: Uses Teamtailor — no adapter yet.
+- name: Confluent
+  slug: confluent
+  ats_type: unsupported
+  industry: Data Streaming (Kafka)
+  hires_in_africa: unknown
+  priority: low
+  notes: Custom career site, ATS not identified (blocked automated access).
+- name: Hasura (PromptQL)
+  slug: hasura
+  ats_type: unsupported
+  industry: API Platform / GraphQL
+  hires_in_africa: unknown
+  priority: low
+  notes: Rebranded to PromptQL; uses Gem — no adapter yet.
+- name: SUSE
+  slug: suse
+  ats_type: unsupported
+  industry: Enterprise Linux / Rancher
+  hires_in_africa: unknown
+  priority: low
+  notes: Uses Workday — no adapter yet.
+- name: Zendesk
+  slug: zendesk
+  ats_type: unsupported
+  industry: Customer Support Software
+  hires_in_africa: unknown
+  priority: low
+  notes: Uses Workday — no adapter yet.
+- name: Atlassian
+  slug: atlassian
+  ats_type: unsupported
+  industry: Developer Collaboration Tools
+  hires_in_africa: unknown
+  priority: low
+  notes: Uses iCIMS/Workday — no adapter yet.
+- name: Klarna
+  slug: klarna
+  ats_type: unsupported
+  industry: Fintech / BNPL
+  hires_in_africa: unknown
+  priority: low
+  notes: Custom in-house career site, ATS not identified.
+- name: Gravitee
+  slug: gravitee
+  ats_type: unsupported
+  industry: API Management
+  hires_in_africa: unknown
+  priority: low
+  notes: Uses Teamtailor — no adapter yet.
+- name: Spectro Cloud
+  slug: spectro-cloud
+  ats_type: unsupported
+  industry: Kubernetes Management
+  hires_in_africa: unknown
+  priority: low
+  notes: Uses Teamtailor — no adapter yet.
+- name: Porter
+  slug: porter-run
+  ats_type: unsupported
+  industry: Cloud Application Platform
+  hires_in_africa: unknown
+  priority: low
+  notes: Hosted on YC's Work at a Startup platform, not a standard ATS.
+- name: Deno
+  slug: deno
+  ats_type: unsupported
+  industry: Runtime / Developer Tools
+  hires_in_africa: unknown
+  priority: low
+  notes: Ashby-hosted careers page exists but public posting API returns 404 for every
+    token tried.

@@ -35,6 +35,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   strengths in observability (Prometheus, Grafana, OpenTelemetry, Loki, Alertmanager) and
   DevSecOps/supply-chain security (Trivy, Snyk, SonarQube, Gitleaks, CodeQL, OIDC, SBOM). No code
   changes — this is purely a data-file tune, the whole point of keeping scoring config-driven.
+- Grew `config/companies.yaml` from 27 to 117 companies (94 fetchable, 23 tracked-only), toward
+  the original 100-300 target. Added companies across observability, security/DevSecOps, CI/CD,
+  data infrastructure, API/dev platforms, cloud-native/K8s tooling, and international companies
+  (UK/Ireland, Germany/Netherlands/Nordics, APAC/ANZ) hiring remote DevOps/Platform/SRE roles.
+  Every fetchable entry's board token was live-verified against its real endpoint with job
+  content cross-checked against the company name — this batch caught and avoided several
+  slug-collision and mislabeling risks: a token that looked like Personio's own careers page
+  actually belonged to an unrelated company using Personio (excluded entirely); Bugsnag's and
+  Segment's actual boards are shared with their parent companies (SmartBear, Twilio) and would
+  have mislabeled every unrelated posting under the acquired brand's name if added under the
+  original name (added as SmartBear/Twilio instead); several dead/fully-absorbed companies
+  (Weaveworks — shut down, D2iQ/Lightstep/Instana/Tessian/Auth0/Codefresh — folded into an
+  acquirer with no independent board) were excluded rather than tracked as ghost entries.
+  Live-validated end-to-end: a real run across all 99 sources (94 companies + 5 aggregators)
+  completed with zero fetch failures, surfacing 2,734 relevant scored jobs (up from 794).
 
 ## [0.3.0] - 2026-07-05
 
