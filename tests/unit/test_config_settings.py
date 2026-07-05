@@ -29,3 +29,19 @@ def test_settings_reads_from_env(monkeypatch, tmp_path):
 
     assert settings.google_sheets_spreadsheet_id == "abc123"
     assert settings.score_threshold_notify == 80
+
+
+def test_settings_treats_empty_string_env_var_as_unset(monkeypatch, tmp_path):
+    """Regression test: GitHub Actions injects `${{ secrets.X }}` as "" (not
+    an absent variable) when secret X isn't configured. An unset SMTP_PORT
+    secret should fall back to the default, not crash on int parsing."""
+    monkeypatch.chdir(tmp_path)
+    monkeypatch.setenv("SMTP_PORT", "")
+    monkeypatch.setenv("GOOGLE_SHEETS_SPREADSHEET_ID", "")
+    monkeypatch.setenv("SCORE_THRESHOLD_WRITE", "")
+
+    settings = Settings()
+
+    assert settings.smtp_port == 587
+    assert settings.google_sheets_spreadsheet_id is None
+    assert settings.score_threshold_write == 40

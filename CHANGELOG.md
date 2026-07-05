@@ -5,8 +5,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
-Nothing yet — see the README roadmap for what's next (growing the company registry, and the
-deferred AI CV/cover-letter generation phase).
+### Fixed
+
+- `Settings` crashed on the first real `ai-job-hunter run` in GitHub Actions:
+  `${{ secrets.SMTP_PORT }}` resolves to an empty string (not an absent env var) when that
+  secret isn't configured, and pydantic tried to parse `""` as an int instead of falling back to
+  the default. Added a `model_validator(mode="before")` that drops any blank-string value from
+  the settings input before validation, so every unset-but-referenced secret (SMTP_PORT,
+  GOOGLE_SHEETS_SPREADSHEET_ID, etc.) correctly falls back to its field default instead of
+  crashing. Same fix protects a local `.env` with an accidentally-blank value.
 
 ## [0.3.0] - 2026-07-05
 
