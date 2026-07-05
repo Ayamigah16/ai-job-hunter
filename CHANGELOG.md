@@ -20,6 +20,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   or its own `SpreadsheetNotFound` for a 404 (wrong id), both of which slipped past the intended
   `SheetsConfigError` wrapping and crashed with a raw traceback. Now catches all three.
 
+### Verified
+
+- First successful live run of the full pipeline in production: GitHub Actions' scheduled
+  workflow completed fetch → filter → score → dedup → Google Sheets sync against a real
+  spreadsheet, following the two fixes above. The core system is now confirmed working
+  end-to-end, not just unit-tested.
+
 ## [0.3.0] - 2026-07-05
 
 ### Added
