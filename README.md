@@ -133,7 +133,8 @@ A `Dockerfile` is also provided if you'd rather run this on your own infrastruct
 See `src/ai_job_hunter/` for the package; `config/` holds data (company registry, skills
 profile) that grows independently of the code; `docs/adr/` records architectural decisions as
 they're made; `tests/unit` runs offline against fixtures, `tests/integration` (excluded by
-default) hits real endpoints.
+default) hits real endpoints. See [CONTRIBUTING.md](CONTRIBUTING.md) for dev setup and how to
+add a company or a new ATS adapter.
 
 ## Roadmap
 
@@ -149,7 +150,7 @@ default) hits real endpoints.
 - [x] GitHub Actions scheduler + Docker (`v0.2.0`) — code complete and Docker image verified
       locally end-to-end; the daily schedule needs repo secrets configured (see setup above)
 - [x] Weekly Dashboard tab
-- [ ] Hardening: retries, structured logging, mypy, coverage gate
+- [x] Hardening: retries, structured logging, mypy, coverage gate, gitleaks, CONTRIBUTING.md
 - [ ] Grow company registry toward 100-300 companies (ongoing, config-only)
 - [ ] **Deferred**: AI-generated tailored CVs and cover letters
 - [ ] **Deprioritized**: Wellfound/AngelList and LinkedIn (no public API; scraping-only, higher

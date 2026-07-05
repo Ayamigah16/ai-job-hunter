@@ -23,50 +23,70 @@ if TYPE_CHECKING:
     from ai_job_hunter.sheets.writer import SheetsWriter, SyncResult
 
 
-def fetch_all(
+@dataclass
+class FetchOutcome:
+    source_name: str
+    job_count: int
+    error: str | None
+
+
+def fetch_all_with_summary(
     companies: list[CompanyEntry],
     aggregators: list[AggregatorEntry],
     session: RateLimitedSession | None = None,
-) -> dict[str, list[JobPosting]]:
+) -> tuple[dict[str, list[JobPosting]], list[FetchOutcome]]:
     """Fetch every enabled/fetchable source, keyed by source name.
 
     Companies whose ats_type has no adapter (ATSType.UNSUPPORTED, or any future
     type not yet wired into registry_map) are silently skipped here — that's
     expected, not an error; see CompanyEntry.notes for what they actually use.
+
+    Returns both the per-source job lists and a parallel summary noting which
+    sources failed and why, so a caller can distinguish "genuinely 0 postings"
+    from "the fetch errored" without inspecting adapter internals.
     """
     session = session or RateLimitedSession()
     results: dict[str, list[JobPosting]] = {}
+    outcomes: list[FetchOutcome] = []
 
     for company in companies:
         adapter_cls = ATS_ADAPTERS.get(company.ats_type)
         if adapter_cls is None:
             continue
-        results[company.name] = adapter_cls(session=session).fetch_and_parse(company)
+        adapter = adapter_cls(session=session)
+        jobs = adapter.fetch_and_parse(company)
+        results[company.name] = jobs
+        outcomes.append(FetchOutcome(company.name, len(jobs), adapter.last_fetch_error))
 
     for aggregator in aggregators:
         if not aggregator.enabled:
             continue
-        adapter_cls = AGGREGATOR_ADAPTERS.get(aggregator.source_type)
-        if adapter_cls is None:
+        aggregator_adapter_cls = AGGREGATOR_ADAPTERS.get(aggregator.source_type)
+        if aggregator_adapter_cls is None:
             continue
-        results[aggregator.name] = adapter_cls(session=session).fetch_and_parse(aggregator)
+        aggregator_adapter = aggregator_adapter_cls(session=session)
+        aggregator_jobs = aggregator_adapter.fetch_and_parse(aggregator)
+        results[aggregator.name] = aggregator_jobs
+        outcomes.append(
+            FetchOutcome(aggregator.name, len(aggregator_jobs), aggregator_adapter.last_fetch_error)
+        )
 
+    return results, outcomes
+
+
+def fetch_all(
+    companies: list[CompanyEntry],
+    aggregators: list[AggregatorEntry],
+    session: RateLimitedSession | None = None,
+) -> dict[str, list[JobPosting]]:
+    """Convenience wrapper over fetch_all_with_summary for callers that don't
+    need the failure summary (e.g. fetch_score_and_dedup)."""
+    results, _outcomes = fetch_all_with_summary(companies, aggregators, session=session)
     return results
 
 
-def fetch_score_and_dedup(
-    companies: list[CompanyEntry],
-    aggregators: list[AggregatorEntry],
-    profile: ScoringProfile,
-    session: RateLimitedSession | None = None,
-) -> list[ScoredJob]:
-    """Fetch every source, keep only relevant postings, dedup, score, rank.
-
-    Ranked descending by score.total_score. Sheet-write/notify are Phase 4/5
-    concerns layered on top of this, not part of it.
-    """
-    results = fetch_all(companies, aggregators, session=session)
-    all_jobs = [job for jobs in results.values() for job in jobs]
+def _score_relevant_jobs(all_jobs: list[JobPosting], profile: ScoringProfile) -> list[ScoredJob]:
+    """Filter to relevant postings, dedup, score, rank descending. No I/O."""
     relevant_jobs = [job for job in all_jobs if is_relevant(job, profile)]
     deduped_jobs = dedup_jobs(relevant_jobs)
 
@@ -82,10 +102,27 @@ def fetch_score_and_dedup(
     return scored_jobs
 
 
+def fetch_score_and_dedup(
+    companies: list[CompanyEntry],
+    aggregators: list[AggregatorEntry],
+    profile: ScoringProfile,
+    session: RateLimitedSession | None = None,
+) -> list[ScoredJob]:
+    """Fetch every source, keep only relevant postings, dedup, score, rank.
+
+    Ranked descending by score.total_score. Sheet-write/notify are Phase 4/5
+    concerns layered on top of this, not part of it.
+    """
+    results = fetch_all(companies, aggregators, session=session)
+    all_jobs = [job for jobs in results.values() for job in jobs]
+    return _score_relevant_jobs(all_jobs, profile)
+
+
 @dataclass
 class RunResult:
     open_roles: SyncResult
     target_companies: SyncResult
+    fetch_outcomes: list[FetchOutcome]
 
 
 def run(
@@ -104,7 +141,10 @@ def run(
     that already existed) — "already notified" is structural, not a separate
     log; see docs/adr/0003 for the tradeoff this implies.
     """
-    scored_jobs = fetch_score_and_dedup(companies, aggregators, profile, session=session)
+    results, fetch_outcomes = fetch_all_with_summary(companies, aggregators, session=session)
+    all_jobs = [job for jobs in results.values() for job in jobs]
+    scored_jobs = _score_relevant_jobs(all_jobs, profile)
+
     open_roles_result = writer.sync_open_roles(scored_jobs, score_threshold)
     target_companies_result = writer.sync_target_companies(companies)
 
@@ -116,4 +156,8 @@ def run(
         ]
         notifier.notify(notifiable)
 
-    return RunResult(open_roles=open_roles_result, target_companies=target_companies_result)
+    return RunResult(
+        open_roles=open_roles_result,
+        target_companies=target_companies_result,
+        fetch_outcomes=fetch_outcomes,
+    )

@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import logging
 from datetime import UTC, datetime
+from typing import TYPE_CHECKING
 
 import click
 
@@ -11,7 +13,10 @@ from ai_job_hunter.dashboard import refresh_dashboard
 from ai_job_hunter.notifiers.dispatcher import NotifierDispatcher
 from ai_job_hunter.notifiers.email_notifier import EmailNotifier
 from ai_job_hunter.notifiers.telegram_notifier import TelegramNotifier
-from ai_job_hunter.pipeline import fetch_all, fetch_score_and_dedup
+
+if TYPE_CHECKING:
+    from ai_job_hunter.notifiers.base import Notifier
+from ai_job_hunter.pipeline import FetchOutcome, fetch_all_with_summary, fetch_score_and_dedup
 from ai_job_hunter.pipeline import run as run_pipeline
 from ai_job_hunter.registry import (
     DEFAULT_AGGREGATORS_PATH,
@@ -25,8 +30,24 @@ from ai_job_hunter.sheets.client import SheetsConfigError, get_gspread_client, o
 from ai_job_hunter.sheets.writer import GoogleSheetsWriter, SheetSchemaError
 
 
+def _configure_logging() -> None:
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+    )
+
+
+def _print_fetch_failures(outcomes: list[FetchOutcome]) -> None:
+    failures = [outcome for outcome in outcomes if outcome.error is not None]
+    if not failures:
+        return
+    click.secho(f"{len(failures)} source(s) failed to fetch:", fg="yellow")
+    for outcome in failures:
+        click.secho(f"  {outcome.source_name}: {outcome.error}", fg="yellow")
+
+
 def _build_notifier(settings) -> NotifierDispatcher | None:
-    notifiers = []
+    notifiers: list[Notifier] = []
 
     if settings.telegram_bot_token and settings.telegram_chat_id:
         notifiers.append(TelegramNotifier(settings.telegram_bot_token, settings.telegram_chat_id))
@@ -49,6 +70,7 @@ def _build_notifier(settings) -> NotifierDispatcher | None:
 @click.group()
 def cli() -> None:
     """AI Job Hunter command-line interface."""
+    _configure_logging()
 
 
 @cli.command("validate-config")
@@ -97,12 +119,13 @@ def fetch(dry_run: bool, score: bool, top: int) -> None:
     aggregators = load_aggregators(DEFAULT_AGGREGATORS_PATH)
 
     if not score:
-        results = fetch_all(companies, aggregators)
+        results, outcomes = fetch_all_with_summary(companies, aggregators)
         total = 0
         for source_name, jobs in results.items():
             click.echo(f"{source_name}: {len(jobs)} jobs")
             total += len(jobs)
         click.secho(f"Total: {total} jobs from {len(results)} sources", fg="green")
+        _print_fetch_failures(outcomes)
         return
 
     profile = load_scoring_profile(DEFAULT_SKILLS_PROFILE_PATH)
@@ -162,6 +185,7 @@ def run() -> None:
         f"{len(result.target_companies.updated)} updated.",
         fg="green",
     )
+    _print_fetch_failures(result.fetch_outcomes)
 
 
 @cli.command("dashboard")

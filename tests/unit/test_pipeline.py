@@ -28,19 +28,25 @@ def make_company() -> CompanyEntry:
     return CompanyEntry(name="Acme", slug="acme", ats_type=ATSType.GREENHOUSE, board_token="acme")
 
 
-def test_run_notifies_only_newly_appended_jobs_above_notify_threshold(monkeypatch, make_scored_job):
+def _patch_fetch(monkeypatch, scored_jobs):
+    """Isolate run() from real network I/O: stub the fetch step (no real HTTP
+    calls) and the scoring step (return a fixed, pre-built list) separately,
+    since run() composes them itself rather than calling fetch_score_and_dedup."""
     import ai_job_hunter.pipeline as pipeline_module
 
+    monkeypatch.setattr(pipeline_module, "fetch_all_with_summary", lambda *a, **k: ({}, []))
+    monkeypatch.setattr(pipeline_module, "_score_relevant_jobs", lambda *a, **k: scored_jobs)
+
+
+def test_run_notifies_only_newly_appended_jobs_above_notify_threshold(monkeypatch, make_scored_job):
     scored_high = make_scored_job(score=90.0, company="Acme", title="Platform Engineer")
     scored_low = make_scored_job(score=10.0, company="Acme", title="Data Entry")
-    monkeypatch.setattr(
-        pipeline_module, "fetch_score_and_dedup", lambda *a, **k: [scored_high, scored_low]
-    )
+    _patch_fetch(monkeypatch, [scored_high, scored_low])
 
     writer = FakeSheetsWriter()
     notifier = _StubNotifier()
 
-    result = pipeline_module.run(
+    result = run_pipeline(
         companies=[make_company()],
         aggregators=[],
         profile=make_profile(),
@@ -53,13 +59,12 @@ def test_run_notifies_only_newly_appended_jobs_above_notify_threshold(monkeypatc
     assert isinstance(result, RunResult)
     assert len(result.open_roles.appended) == 2
     assert notifier.notified == [scored_high]
+    assert result.fetch_outcomes == []
 
 
 def test_run_does_not_notify_for_updated_rows_on_rerun(monkeypatch, make_scored_job):
-    import ai_job_hunter.pipeline as pipeline_module
-
     scored = make_scored_job(score=90.0, company="Acme", title="Platform Engineer")
-    monkeypatch.setattr(pipeline_module, "fetch_score_and_dedup", lambda *a, **k: [scored])
+    _patch_fetch(monkeypatch, [scored])
 
     writer = FakeSheetsWriter()
     notifier = _StubNotifier()

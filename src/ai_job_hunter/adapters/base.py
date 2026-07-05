@@ -16,6 +16,7 @@ from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import urlparse
 
 import requests
+from tenacity import retry, retry_if_exception_type, stop_after_attempt, wait_exponential
 
 if TYPE_CHECKING:
     from ai_job_hunter.models import AggregatorType, ATSType, JobPosting
@@ -64,9 +65,23 @@ class RateLimitedSession:
             if elapsed < self._min_interval:
                 time.sleep(self._min_interval - elapsed)
         kwargs.setdefault("timeout", self._timeout)
-        response = self._session.get(url, **kwargs)
+        response = self._get_with_retry(url, **kwargs)
         self._last_request_at[host] = time.monotonic()
         return response
+
+    # Retries transient network failures (connection resets, timeouts) up to
+    # 3 attempts with exponential backoff. Deliberately does NOT retry on
+    # HTTP error status codes (e.g. 5xx) — adapters interpret 404 specially
+    # (empty board) and call response.raise_for_status() themselves for
+    # everything else, so retrying here too would double up that decision.
+    @retry(
+        retry=retry_if_exception_type(requests.exceptions.RequestException),
+        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=1, max=10),
+        reraise=True,
+    )
+    def _get_with_retry(self, url: str, **kwargs) -> requests.Response:
+        return self._session.get(url, **kwargs)
 
 
 def _safe_parse_many(raw_list: list[dict], parse_one, source_label: str) -> list[JobPosting]:
@@ -89,6 +104,7 @@ class BaseATSAdapter(ABC):
 
     def __init__(self, session: RateLimitedSession | None = None):
         self.session = session or RateLimitedSession()
+        self.last_fetch_error: str | None = None
 
     @abstractmethod
     def fetch_raw(self, company: CompanyEntry) -> list[dict]:
@@ -99,10 +115,12 @@ class BaseATSAdapter(ABC):
         """Parse one raw record; return None if it can't be mapped."""
 
     def fetch_and_parse(self, company: CompanyEntry) -> list[JobPosting]:
+        self.last_fetch_error = None
         try:
             raw_list = self.fetch_raw(company)
-        except Exception:
+        except Exception as exc:
             logger.warning("Fetch failed for company %s", company.name, exc_info=True)
+            self.last_fetch_error = str(exc)
             return []
         return _safe_parse_many(
             raw_list, lambda raw: self.parse(raw, company), source_label=company.name
@@ -116,6 +134,7 @@ class BaseAggregatorAdapter(ABC):
 
     def __init__(self, session: RateLimitedSession | None = None):
         self.session = session or RateLimitedSession()
+        self.last_fetch_error: str | None = None
 
     @abstractmethod
     def fetch_raw(self, aggregator: AggregatorEntry) -> list[dict]:
@@ -126,10 +145,12 @@ class BaseAggregatorAdapter(ABC):
         """Parse one raw record; return None if it can't be mapped."""
 
     def fetch_and_parse(self, aggregator: AggregatorEntry) -> list[JobPosting]:
+        self.last_fetch_error = None
         try:
             raw_list = self.fetch_raw(aggregator)
-        except Exception:
+        except Exception as exc:
             logger.warning("Fetch failed for aggregator %s", aggregator.name, exc_info=True)
+            self.last_fetch_error = str(exc)
             return []
         return _safe_parse_many(
             raw_list, lambda raw: self.parse(raw, aggregator), source_label=aggregator.name

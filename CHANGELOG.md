@@ -82,3 +82,21 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   `(values, range_name)` arguments swapped — never caught by the unit suite since
   `FakeSheetsWriter` doesn't touch the real gspread API, only surfaced by checking gspread's
   actual method signature while wiring the new dashboard code the same way.
+- Hardening: `RateLimitedSession` now retries transient network failures (connection
+  errors/timeouts, not HTTP status codes) up to 3 attempts with exponential backoff via
+  `tenacity`. Adapters track `last_fetch_error` per instance; `pipeline.fetch_all_with_summary`
+  surfaces which sources failed and why (`FetchOutcome`), printed by both `fetch --dry-run` and
+  `run`/`RunResult.fetch_outcomes` — distinguishes "genuinely 0 postings" from "the fetch
+  errored" without digging through logs. CLI now configures structured logging
+  (`logging.basicConfig`) so adapter/pipeline warnings are actually visible when running.
+  Fixed 10 real issues surfaced by adding mypy to CI (not just suppressed): a type-narrowing bug
+  in `pipeline.py` from reusing one loop variable name across two adapter types,
+  `gspread.get_all_records()`'s numeric auto-coercion (fixed with `numericise_ignore`, which
+  also closes a latent bug where a purely-numeric cell value like a Role of "2" would silently
+  become an `int` instead of a `str`), and an unannotated notifier list in `cli.py` defaulting to
+  the wrong element type. Added CONTRIBUTING.md (dev setup, adding a company, adding a new ATS
+  adapter). CI now also runs mypy, enforces an 85% coverage gate (currently at 91%), and runs
+  gitleaks secret scanning. Added CLI tests (`click.testing.CliRunner`), `config_settings.py`
+  tests, adapter retry/failure-tracking tests, and `GoogleSheetsWriter` tests against a mocked
+  gspread client — the latter directly guard against the `update()` argument-order class of bug
+  found in the previous entry. Coverage: 79% -> 91%.
