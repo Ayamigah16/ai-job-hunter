@@ -14,6 +14,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   the settings input before validation, so every unset-but-referenced secret (SMTP_PORT,
   GOOGLE_SHEETS_SPREADSHEET_ID, etc.) correctly falls back to its field default instead of
   crashing. Same fix protects a local `.env` with an accidentally-blank value.
+- `open_spreadsheet` only caught `gspread.exceptions.APIError`, but gspread's `open_by_key`
+  doesn't actually raise that for the common failure cases — it catches APIError internally and
+  re-raises the builtin `PermissionError` for a 403 (sheet not shared with the service account)
+  or its own `SpreadsheetNotFound` for a 404 (wrong id), both of which slipped past the intended
+  `SheetsConfigError` wrapping and crashed with a raw traceback. Now catches all three.
 
 ## [0.3.0] - 2026-07-05
 
