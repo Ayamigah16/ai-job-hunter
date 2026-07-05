@@ -69,13 +69,37 @@ def test_sync_open_roles_updates_existing_row_at_correct_range(make_scored_job):
 
     assert len(result.updated) == 1
     worksheet.append_rows.assert_not_called()
-    worksheet.update.assert_called_once()
-    # Regression guard: gspread's Worksheet.update signature is
-    # (values, range_name, ...) - values first. Row 2 is the first data row
-    # (row 1 is the header), so the range must start at A2.
-    (values_arg, range_arg), _kwargs = worksheet.update.call_args
-    assert range_arg.startswith("A2")
-    assert values_arg[0][0] == "Acme"
+    worksheet.update.assert_not_called()
+    # Regression guard: updates for existing rows must go through ONE
+    # batch_update call, not one worksheet.update() per row - a live
+    # production run against 100+ companies hit Google's per-minute write
+    # quota when every updated row cost its own API request.
+    worksheet.batch_update.assert_called_once()
+    (updates_arg,), _kwargs = worksheet.batch_update.call_args
+    assert len(updates_arg) == 1
+    assert updates_arg[0]["range"].startswith("A2")
+    assert updates_arg[0]["values"][0][0] == "Acme"
+
+
+def test_sync_open_roles_batches_many_updates_into_one_api_call(make_scored_job):
+    existing_records = [
+        {"Company": f"Acme{i}", "Role": "Platform Engineer", "Apply Link": f"https://acme.com/{i}"}
+        for i in range(50)
+    ]
+    worksheet = make_worksheet(OPEN_ROLES_COLUMNS, existing_records)
+    spreadsheet = make_spreadsheet(open_roles_ws=worksheet)
+    writer = GoogleSheetsWriter(spreadsheet)
+
+    jobs = [
+        make_scored_job(score=80.0, company=f"Acme{i}", title="Platform Engineer", url=f"https://acme.com/{i}")
+        for i in range(50)
+    ]
+    result = writer.sync_open_roles(jobs, score_threshold=40)
+
+    assert len(result.updated) == 50
+    worksheet.batch_update.assert_called_once()
+    (updates_arg,), _kwargs = worksheet.batch_update.call_args
+    assert len(updates_arg) == 50
 
 
 def test_sync_target_companies_appends_new_row_with_correct_shape():
@@ -111,7 +135,8 @@ def test_sync_target_companies_updates_existing_row_at_correct_range():
     result = writer.sync_target_companies([company])
 
     assert len(result.updated) == 1
-    worksheet.update.assert_called_once()
-    (values_arg, range_arg), _kwargs = worksheet.update.call_args
-    assert range_arg.startswith("B2")  # Industry is column B, Company (A) is never rewritten
-    assert values_arg[0][0] == "DevOps"
+    worksheet.update.assert_not_called()
+    worksheet.batch_update.assert_called_once()
+    (updates_arg,), _kwargs = worksheet.batch_update.call_args
+    assert updates_arg[0]["range"].startswith("B2")  # Industry col; Company (A) never rewritten
+    assert updates_arg[0]["values"][0][0] == "DevOps"

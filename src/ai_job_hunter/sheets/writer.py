@@ -198,6 +198,12 @@ class GoogleSheetsWriter:
 
         result = SyncResult()
         rows_to_append: list[list[str]] = []
+        # One worksheet.update() per updated row used to cost one write-quota
+        # unit each — at registry scale (100+ companies, thousands of scored
+        # jobs) that blew through Google's per-minute write quota on a rerun
+        # where most jobs already existed. batch_update collapses every
+        # updated row into a single API request regardless of row count.
+        batch_updates: list[dict] = []
 
         for scored in scored_jobs:
             if scored.score.total_score < score_threshold:
@@ -210,13 +216,16 @@ class GoogleSheetsWriter:
                 values = [row[column] for column in OPEN_ROLES_MANAGED_COLUMNS]
                 end_col = gspread.utils.rowcol_to_a1(row_number, len(OPEN_ROLES_MANAGED_COLUMNS))
                 start_col = gspread.utils.rowcol_to_a1(row_number, 1)
-                worksheet.update([values], f"{start_col}:{end_col}")
+                batch_updates.append({"range": f"{start_col}:{end_col}", "values": [values]})
                 result.updated.append(scored)
             else:
                 row["Status"] = "New"
                 row["Notes"] = ""
                 rows_to_append.append([row[column] for column in OPEN_ROLES_COLUMNS])
                 result.appended.append(scored)
+
+        if batch_updates:
+            worksheet.batch_update(batch_updates, value_input_option=ValueInputOption.user_entered)
 
         if rows_to_append:
             worksheet.append_rows(rows_to_append, value_input_option=ValueInputOption.user_entered)
@@ -237,6 +246,7 @@ class GoogleSheetsWriter:
 
         result = SyncResult()
         rows_to_append: list[list[str]] = []
+        batch_updates: list[dict] = []
 
         for company in companies:
             key = company.name.lower()
@@ -247,12 +257,15 @@ class GoogleSheetsWriter:
                 num_managed = len(TARGET_COMPANIES_MANAGED_COLUMNS)
                 start_col = gspread.utils.rowcol_to_a1(row_number, 2)
                 end_col = gspread.utils.rowcol_to_a1(row_number, 1 + num_managed)
-                worksheet.update([values], f"{start_col}:{end_col}")
+                batch_updates.append({"range": f"{start_col}:{end_col}", "values": [values]})
                 result.updated.append(company)
             else:
                 row = build_target_company_row(company)
                 rows_to_append.append([row[column] for column in TARGET_COMPANIES_COLUMNS])
                 result.appended.append(company)
+
+        if batch_updates:
+            worksheet.batch_update(batch_updates, value_input_option=ValueInputOption.user_entered)
 
         if rows_to_append:
             worksheet.append_rows(rows_to_append, value_input_option=ValueInputOption.user_entered)
