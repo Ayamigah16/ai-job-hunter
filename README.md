@@ -46,6 +46,12 @@ python -m venv .venv && source .venv/bin/activate
 pip install -e ".[dev]"
 pytest
 ruff check .
+
+# Validate the company/aggregator registry
+ai-job-hunter validate-config
+
+# Fetch real postings from every configured source (no writes anywhere yet)
+ai-job-hunter fetch --dry-run
 ```
 
 Later phases will require a `.env` (copy `.env.example`) with Google Sheets, Telegram, and SMTP
@@ -62,7 +68,7 @@ default) hits real endpoints.
 
 - [x] Project scaffold, CI, docs structure
 - [x] Core models + config loader + seed company registry
-- [ ] ATS adapters (Greenhouse, Lever, Ashby, Workable, SmartRecruiters, BambooHR, Recruitee,
+- [x] ATS adapters (Greenhouse, Lever, Ashby, Workable, SmartRecruiters, BambooHR, Recruitee,
       Personio) + aggregator adapters
 - [ ] Scoring engine + cross-source dedup
 - [ ] Google Sheets integration (MVP milestone, `v0.1.0`)

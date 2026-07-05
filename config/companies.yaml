@@ -154,6 +154,15 @@
   hires_in_africa: unknown
   priority: high
 
+- name: Fly.io
+  slug: fly-io
+  ats_type: bamboohr
+  board_token: flyio
+  industry: Cloud Platform (Edge Compute)
+  hires_in_africa: unknown
+  priority: high
+  notes: "Corrects earlier research pass which found no ATS; confirmed live via flyio.bamboohr.com."
+
 - name: HashiCorp
   slug: hashicorp
   ats_type: workable

@@ -1,0 +1,48 @@
+{
+  "job-count": 3,
+  "total-job-count": 3,
+  "jobs": [
+    {
+      "id": 1712345,
+      "url": "https://remotive.com/remote-jobs/devops/platform-engineer-1712345",
+      "title": "Platform Engineer",
+      "company_name": "Acme Cloud",
+      "company_logo": "https://remotive.com/job/1712345/logo",
+      "category": "DevOps / Sysadmin",
+      "tags": ["kubernetes", "terraform", "aws"],
+      "job_type": "full_time",
+      "publication_date": "2026-07-02T20:01:13",
+      "candidate_required_location": "Worldwide",
+      "salary": "$90k - $110k",
+      "description": "<p>Acme Cloud is hiring a <strong>Platform Engineer</strong> to run our Kubernetes fleet.</p><ul><li>5+ years experience with Kubernetes</li><li>Strong Terraform skills</li></ul>"
+    },
+    {
+      "id": 1712346,
+      "url": "https://remotive.com/remote-jobs/devops/site-reliability-engineer-1712346",
+      "title": "Site Reliability Engineer",
+      "company_name": "Globex Systems",
+      "company_logo": "https://remotive.com/job/1712346/logo",
+      "category": "DevOps / Sysadmin",
+      "tags": ["sre", "prometheus", "go"],
+      "job_type": "full_time",
+      "publication_date": "2026-06-28T09:15:00",
+      "candidate_required_location": "USA Only",
+      "salary": "",
+      "description": "<p>Globex Systems is looking for an SRE to own our on-call rotation and observability stack.</p>"
+    },
+    {
+      "id": 1712347,
+      "url": "https://remotive.com/remote-jobs/devops/cloud-engineer-1712347",
+      "title": "Cloud Engineer",
+      "company_name": "Initech",
+      "company_logo": "https://remotive.com/job/1712347/logo",
+      "category": "DevOps / Sysadmin",
+      "tags": ["azure", "cloud", "ci/cd"],
+      "job_type": "contract",
+      "publication_date": "2026-06-30T14:42:07",
+      "candidate_required_location": "EU Timezones",
+      "salary": "€60,000 - €75,000",
+      "description": "<p>Initech needs a Cloud Engineer to help migrate workloads to Azure.</p>"
+    }
+  ]
+}

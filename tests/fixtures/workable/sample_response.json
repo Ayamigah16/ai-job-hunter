@@ -1,0 +1,76 @@
+{
+  "name": "Example Co",
+  "description": "<p>Example Co is hiring.</p>",
+  "jobs": [
+    {
+      "id": 918273645,
+      "title": "Senior Backend Engineer",
+      "full_title": "Senior Backend Engineer - Platform",
+      "shortcode": "ABC123",
+      "code": "ENG-042",
+      "state": "published",
+      "department": "Engineering",
+      "url": "https://apply.workable.com/exampleco/j/ABC123/",
+      "application_url": "https://apply.workable.com/exampleco/j/ABC123/apply/",
+      "shortlink": "https://apply.workable.com/j/ABC123",
+      "location": {
+        "location_str": "San Francisco, CA, United States",
+        "city": "San Francisco",
+        "region": "CA",
+        "country": "United States",
+        "country_code": "US",
+        "zip_code": "",
+        "telecommuting": true,
+        "workplace_type": "remote"
+      },
+      "published_on": "2026-06-01",
+      "description": "<p>We're looking for a <strong>Senior Backend Engineer</strong> to join Platform.</p>"
+    },
+    {
+      "id": 918273646,
+      "title": "Office Coordinator",
+      "full_title": "Office Coordinator",
+      "shortcode": "DEF456",
+      "code": "OPS-011",
+      "state": "published",
+      "department": "Operations",
+      "url": "https://apply.workable.com/exampleco/j/DEF456/",
+      "application_url": "https://apply.workable.com/exampleco/j/DEF456/apply/",
+      "shortlink": "https://apply.workable.com/j/DEF456",
+      "location": {
+        "location_str": "Berlin, Germany",
+        "city": "Berlin",
+        "region": "",
+        "country": "Germany",
+        "country_code": "DE",
+        "zip_code": "10115",
+        "telecommuting": false,
+        "workplace_type": "on_site"
+      },
+      "published_on": "2026-05-20",
+      "description": "<p>Keep our Berlin office running smoothly and support the local team.</p>"
+    },
+    {
+      "id": 918273647,
+      "title": "Remote Site Reliability Engineer",
+      "full_title": "Remote Site Reliability Engineer",
+      "shortcode": "GHI789",
+      "code": "ENG-055",
+      "state": "published",
+      "department": "Engineering",
+      "url": "https://apply.workable.com/exampleco/j/GHI789/",
+      "application_url": "https://apply.workable.com/exampleco/j/GHI789/apply/",
+      "shortlink": "https://apply.workable.com/j/GHI789",
+      "location": {
+        "location_str": "Remote - EMEA",
+        "city": "",
+        "region": "",
+        "country": "",
+        "country_code": "",
+        "zip_code": ""
+      },
+      "published_on": "2026-04-15",
+      "description": "<p>Fully remote SRE role supporting our EMEA infrastructure.</p>"
+    }
+  ]
+}

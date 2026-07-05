@@ -1,0 +1,49 @@
+{
+  "offers": [
+    {
+      "id": 2656780,
+      "guid": "feabn",
+      "title": "Senior Contracts Administrator",
+      "careers_url": "https://exampleco.recruitee.com/o/senior-contracts-administrator",
+      "remote": true,
+      "location": "Remote job",
+      "city": "DC",
+      "state_code": "DC",
+      "department": "Legal",
+      "published_at": "2026-06-26 15:26:52 UTC",
+      "employment_type_code": "fulltime_permanent",
+      "experience_code": "mid_level",
+      "salary": {"min": null, "max": null, "period": null, "currency": null},
+      "description": "<p>We're looking for a <strong>Senior Contracts Administrator</strong> to join Legal.</p>"
+    },
+    {
+      "id": 2660123,
+      "guid": "9k3jd",
+      "title": "Office Coordinator",
+      "careers_url": "https://exampleco.recruitee.com/o/office-coordinator",
+      "remote": false,
+      "location": "Berlin, Germany",
+      "city": "Berlin",
+      "state_code": null,
+      "department": "Operations",
+      "published_at": "2026-05-20 09:12:00 UTC",
+      "employment_type_code": "fulltime_permanent",
+      "experience_code": "entry_level",
+      "salary": {"min": null, "max": null, "period": null, "currency": null}
+    },
+    {
+      "id": 2664501,
+      "guid": "176od",
+      "title": "Remote Site Reliability Engineer",
+      "careers_url": "https://exampleco.recruitee.com/o/remote-site-reliability-engineer",
+      "location": "Remote job",
+      "city": null,
+      "state_code": null,
+      "department": "Engineering",
+      "published_at": "2026-04-15 12:00:00 UTC",
+      "employment_type_code": "fulltime_permanent",
+      "experience_code": "senior_level",
+      "salary": {"min": null, "max": null, "period": null, "currency": null}
+    }
+  ]
+}
