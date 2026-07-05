@@ -101,6 +101,28 @@ address), `SMTP_PASSWORD` (the app password), and optionally `NOTIFY_EMAIL_FROM`
 `NOTIFY_EMAIL_TO` if they differ from `SMTP_USERNAME`. Any other SMTP provider (Outlook,
 SendGrid's SMTP relay, etc.) works the same way — just change `SMTP_HOST`/`SMTP_PORT`.
 
+## Scheduling (GitHub Actions)
+
+`.github/workflows/scheduled-run.yml` runs `ai-job-hunter run` daily (06:00 UTC) and on-demand via
+the Actions tab's "Run workflow" button. It reads everything from repo secrets — nothing is read
+from a committed `.env`. In your GitHub repo, go to *Settings → Secrets and variables → Actions*
+and add:
+
+| Secret | Value |
+| --- | --- |
+| `GCP_SERVICE_ACCOUNT_KEY` | the **entire contents** of your service account JSON file |
+| `GOOGLE_SHEETS_SPREADSHEET_ID` | from the Google Sheets setup section above |
+| `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` | optional, from the Notifications setup above |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USERNAME` / `SMTP_PASSWORD` | optional |
+| `NOTIFY_EMAIL_FROM` / `NOTIFY_EMAIL_TO` | optional |
+
+`.github/workflows/integration-smoke.yml` runs weekly (plus on-demand) and hits a handful of real
+endpoints (no secrets needed) to catch upstream ATS schema breakage early — see
+`tests/integration/test_live_adapters.py`.
+
+A `Dockerfile` is also provided if you'd rather run this on your own infrastructure:
+`docker build -t ai-job-hunter . && docker run --rm --env-file .env -v $(pwd)/credentials:/app/credentials ai-job-hunter`.
+
 ## Project layout
 
 See `src/ai_job_hunter/` for the package; `config/` holds data (company registry, skills
@@ -119,7 +141,8 @@ default) hits real endpoints.
       Cloud setup for a live end-to-end run (see setup section above)
 - [x] Email + Telegram notifications — code complete, pending your bot token/SMTP setup for a
       live test (see setup section above)
-- [ ] GitHub Actions scheduler + Docker (`v0.2.0`)
+- [x] GitHub Actions scheduler + Docker (`v0.2.0`) — code complete and Docker image verified
+      locally end-to-end; the daily schedule needs repo secrets configured (see setup above)
 - [ ] Weekly Dashboard tab
 - [ ] Hardening: retries, structured logging, mypy, coverage gate
 - [ ] Grow company registry toward 100-300 companies (ongoing, config-only)

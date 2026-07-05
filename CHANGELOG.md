@@ -59,3 +59,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   works with zero, one, or both channels configured. 168 unit tests total (SMTP/HTTP calls
   mocked); live delivery is pending your Telegram bot token / SMTP credentials, documented in
   the README's Notifications setup section.
+- Scheduler and containerization (`v0.2.0`): `.github/workflows/scheduled-run.yml` (daily cron +
+  manual dispatch, reads all config from repo secrets, writes the service account key to
+  `$RUNNER_TEMP` at job start), `.github/workflows/integration-smoke.yml` (weekly + manual,
+  runs `tests/integration/test_live_adapters.py` against real Greenhouse/Ashby/Workable/RemoteOK
+  endpoints, asserting structural shape rather than exact content so routine job-posting churn
+  doesn't cause flakiness), and a `Dockerfile`. Docker image build and run verified locally
+  end-to-end: `validate-config` and a live `fetch --dry-run --score` both succeeded inside the
+  container. See ADR-0004 for why GitHub Actions over local cron and the ephemeral-runner
+  implications for state design. The daily schedule itself needs GitHub repo secrets configured
+  (documented in the README) before it can run for real.
