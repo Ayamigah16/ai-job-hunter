@@ -19,6 +19,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   re-raises the builtin `PermissionError` for a 403 (sheet not shared with the service account)
   or its own `SpreadsheetNotFound` for a 404 (wrong id), both of which slipped past the intended
   `SheetsConfigError` wrapping and crashed with a raw traceback. Now catches all three.
+- `GoogleSheetsWriter.sync_open_roles`/`sync_target_companies` called `worksheet.update()` once
+  per updated row — fine at the original ~27-company scale, but after growing the registry to
+  117 companies and 2,734 relevant scored jobs, a rerun where most jobs already existed needed
+  hundreds of individual write requests and hit Google's "Write requests per minute per user"
+  quota (HTTP 429), crashing the scheduled run. Both methods now collect all row updates into a
+  single `worksheet.batch_update()` call, which costs one write-quota unit regardless of how many
+  rows it covers — new rows still go through the existing single `append_rows()` call, so a full
+  sync is now at most ~2-4 write requests total instead of one per changed row.
 
 ### Verified
 
