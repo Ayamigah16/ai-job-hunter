@@ -1,0 +1,83 @@
+{
+  "offset": 0,
+  "limit": 100,
+  "totalFound": 3,
+  "content": [
+    {
+      "id": "744000111222333",
+      "name": "Senior Data Engineer",
+      "uuid": "a1b2c3d4-0000-1111-2222-333344445555",
+      "refNumber": "REF10001",
+      "company": {
+        "identifier": "exampleco",
+        "name": "Example Co"
+      },
+      "releasedDate": "2026-06-15T09:30:00.000Z",
+      "location": {
+        "city": "",
+        "region": "",
+        "country": "de",
+        "remote": true,
+        "hybrid": false,
+        "fullLocation": "Remote - Germany"
+      },
+      "department": {
+        "id": "eng001",
+        "label": "Engineering"
+      },
+      "ref": "https://api.smartrecruiters.com/v1/companies/exampleco/postings/744000111222333",
+      "applyUrl": "https://jobs.smartrecruiters.com/exampleco/744000111222333-senior-data-engineer?oga=true",
+      "description": "<p>Build and own our <strong>data platform</strong> from the ground up.</p>"
+    },
+    {
+      "id": "744000111222334",
+      "name": "Office Manager",
+      "uuid": "a1b2c3d4-0000-1111-2222-333344445556",
+      "refNumber": "REF10002",
+      "company": {
+        "identifier": "exampleco",
+        "name": "Example Co"
+      },
+      "releasedDate": "2026-05-28T14:00:00.000Z",
+      "location": {
+        "city": "Munich",
+        "region": "Bavaria",
+        "country": "de",
+        "remote": false,
+        "hybrid": false,
+        "fullLocation": "Munich, Bavaria, Germany"
+      },
+      "department": {
+        "id": "ops002",
+        "label": "Operations"
+      },
+      "ref": "https://api.smartrecruiters.com/v1/companies/exampleco/postings/744000111222334",
+      "applyUrl": "https://jobs.smartrecruiters.com/exampleco/744000111222334-office-manager?oga=true",
+      "description": "<p>Keep our Munich office running smoothly day to day.</p>"
+    },
+    {
+      "id": "744000111222335",
+      "name": "Remote Site Reliability Engineer",
+      "uuid": "a1b2c3d4-0000-1111-2222-333344445557",
+      "refNumber": "REF10003",
+      "company": {
+        "identifier": "exampleco",
+        "name": "Example Co"
+      },
+      "releasedDate": "2026-04-10T08:15:00.000Z",
+      "location": {
+        "city": "",
+        "region": "",
+        "country": "",
+        "hybrid": false,
+        "fullLocation": "Remote"
+      },
+      "department": {
+        "id": "eng001",
+        "label": "Engineering"
+      },
+      "ref": "https://api.smartrecruiters.com/v1/companies/exampleco/postings/744000111222335",
+      "description": "<p>Support our global infrastructure from anywhere.</p>"
+    }
+  ]
+}

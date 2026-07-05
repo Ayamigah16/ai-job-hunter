@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:media="http://search.yahoo.com/mrss">
+  <channel>
+    <title>We Work Remotely: DevOps and Sysadmin Jobs</title>
+    <link>https://weworkremotely.com/categories/remote-devops-sysadmin-jobs.rss</link>
+    <description>We Work Remotely: DevOps and Sysadmin Jobs</description>
+    <language>en-US</language>
+    <ttl>60</ttl>
+    <item>
+      <title>Acme Cloud: Senior DevOps Engineer</title>
+      <link>https://weworkremotely.com/remote-jobs/acme-cloud-senior-devops-engineer</link>
+      <pubDate>Tue, 30 Jun 2026 20:30:46 +0000</pubDate>
+      <guid>https://weworkremotely.com/remote-jobs/acme-cloud-senior-devops-engineer</guid>
+      <region>Anywhere in the World</region>
+      <description>&lt;p&gt;&lt;strong&gt;About Acme Cloud&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;We are looking for a Senior DevOps Engineer to join our infrastructure team.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Requirements:&lt;/strong&gt; Kubernetes, Terraform, AWS.&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>Globex Systems: Site Reliability Engineer (SRE)</title>
+      <link>https://weworkremotely.com/remote-jobs/globex-systems-site-reliability-engineer-sre</link>
+      <pubDate>Wed, 24 Jun 2026 20:56:13 +0000</pubDate>
+      <guid>https://weworkremotely.com/remote-jobs/globex-systems-site-reliability-engineer-sre</guid>
+      <region>Anywhere in the World</region>
+      <description>&lt;p&gt;Globex Systems is hiring an SRE to keep our platform reliable.&lt;/p&gt;
+&lt;p&gt;&amp;nbsp;&lt;/p&gt;
+&lt;p&gt;Experience with on-call rotations and incident response required.&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>Platform Engineer Wanted For Growing Startup</title>
+      <link>https://weworkremotely.com/remote-jobs/platform-engineer-wanted-for-growing-startup</link>
+      <pubDate>Thu, 18 Jun 2026 17:19:22 +0000</pubDate>
+      <guid>https://weworkremotely.com/remote-jobs/platform-engineer-wanted-for-growing-startup</guid>
+      <region>Anywhere in the World</region>
+      <description>&lt;p&gt;No company name mentioned in the title for this listing.&lt;/p&gt;
+</description>
+    </item>
+  </channel>
+</rss>

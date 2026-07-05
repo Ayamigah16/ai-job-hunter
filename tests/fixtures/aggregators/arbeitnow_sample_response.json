@@ -1,0 +1,56 @@
+{
+  "data": [
+    {
+      "slug": "senior-backend-engineer-acme-corp-209961",
+      "company_name": "Acme Corp",
+      "title": "Senior Backend Engineer",
+      "description": "<p>Acme Corp is hiring a <strong>Senior Backend Engineer</strong> to build our core API.</p><ul><li>5+ years Python</li><li>Experience with Django and Postgres</li></ul>",
+      "remote": true,
+      "url": "https://www.arbeitnow.com/jobs/companies/acme-corp/senior-backend-engineer-209961",
+      "tags": ["Python", "Django", "PostgreSQL"],
+      "job_types": ["Full time"],
+      "location": "Berlin, Germany",
+      "created_at": 1783233032
+    },
+    {
+      "slug": "steuerberater-goellheim-209962",
+      "company_name": "Taxtalente.de",
+      "title": "Steuerberater (m/w/d) in Göllheim",
+      "description": "<p>TaxTalente ist die Nr. 1 Job-Matching Plattform für Jobsuchende in der Steuerberatung.</p>",
+      "remote": false,
+      "url": "https://www.arbeitnow.com/jobs/companies/taxtalentede/steuerberater-goellheim-209962",
+      "tags": ["Directors", "Chief Executives"],
+      "job_types": [],
+      "location": "Göllheim, Germany",
+      "created_at": 1783229432
+    },
+    {
+      "slug": "product-designer-globex-209963",
+      "company_name": "Globex",
+      "title": "Product Designer",
+      "description": "<p>Globex is looking for a <em>Product Designer</em> to join a fully distributed team.</p>",
+      "remote": true,
+      "url": "https://www.arbeitnow.com/jobs/companies/globex/product-designer-209963",
+      "tags": ["Figma", "UX", "Design Systems"],
+      "job_types": ["Full time", "Contract"],
+      "location": "Worldwide",
+      "created_at": 1783140632
+    }
+  ],
+  "links": {
+    "first": "https://www.arbeitnow.com/api/job-board-api?page=1",
+    "last": null,
+    "prev": null,
+    "next": "https://www.arbeitnow.com/api/job-board-api?page=2"
+  },
+  "meta": {
+    "current_page": 1,
+    "current_page_url": "https://www.arbeitnow.com/api/job-board-api?page=1",
+    "from": 1,
+    "path": "https://www.arbeitnow.com/api/job-board-api",
+    "per_page": 100,
+    "to": 3,
+    "terms": "This is a free public API for jobs, please do not abuse.",
+    "info": "Jobs are updated every hour and ordered by the `created_at` timestamp. Use `?page=` to paginate."
+  }
+}

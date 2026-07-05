@@ -1,0 +1,49 @@
+[
+  {
+    "id": "aaaaaaaa-1111-2222-3333-444444444444",
+    "text": "Senior Backend Engineer",
+    "categories": {
+      "location": "New York, NY or Remote",
+      "team": "Engineering",
+      "commitment": "Full-time",
+      "allLocations": ["New York, NY or Remote"]
+    },
+    "workplaceType": "remote",
+    "createdAt": 1779276562892,
+    "hostedUrl": "https://jobs.lever.co/exampleco/aaaaaaaa-1111-2222-3333-444444444444",
+    "applyUrl": "https://jobs.lever.co/exampleco/aaaaaaaa-1111-2222-3333-444444444444/apply",
+    "descriptionPlain": "We are looking for a Senior Backend Engineer to join our Engineering team.\nYou will own core services and APIs.",
+    "description": "<div><p>We are looking for a Senior Backend Engineer to join our <strong>Engineering</strong> team.</p><ul><li>Own core services and APIs</li></ul></div>"
+  },
+  {
+    "id": "bbbbbbbb-1111-2222-3333-444444444444",
+    "text": "Office Manager",
+    "categories": {
+      "location": "Berlin, Germany",
+      "team": "Operations",
+      "commitment": "Full-time",
+      "allLocations": ["Berlin, Germany"]
+    },
+    "workplaceType": "onsite",
+    "createdAt": 1778499562892,
+    "hostedUrl": "https://jobs.lever.co/exampleco/bbbbbbbb-1111-2222-3333-444444444444",
+    "applyUrl": "https://jobs.lever.co/exampleco/bbbbbbbb-1111-2222-3333-444444444444/apply",
+    "descriptionPlain": "Keep our Berlin office running smoothly and support the local team.",
+    "description": "<p>Keep our Berlin office running smoothly and support the local team.</p>"
+  },
+  {
+    "id": "cccccccc-1111-2222-3333-444444444444",
+    "text": "Data Engineer",
+    "categories": {
+      "location": "Remote - EMEA",
+      "team": "Data",
+      "commitment": "Full-time",
+      "allLocations": ["Remote - EMEA"]
+    },
+    "createdAt": 1777203562892,
+    "hostedUrl": "https://jobs.lever.co/exampleco/cccccccc-1111-2222-3333-444444444444",
+    "applyUrl": "https://jobs.lever.co/exampleco/cccccccc-1111-2222-3333-444444444444/apply",
+    "descriptionPlain": "Fully remote data engineering role supporting our EMEA data platform.",
+    "description": "<p>Fully remote data engineering role supporting our EMEA data platform.</p>"
+  }
+]

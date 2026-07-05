@@ -1,0 +1,35 @@
+{
+  "jobs": [
+    {
+      "id": 1111111,
+      "title": "Senior Platform Engineer",
+      "absolute_url": "https://job-boards.greenhouse.io/exampleco/jobs/1111111",
+      "location": { "name": "Remote - US" },
+      "departments": [{ "name": "Engineering" }],
+      "offices": [{ "name": "Remote" }],
+      "updated_at": "2026-06-01T10:00:00-04:00",
+      "first_published": "2026-05-20T09:30:00-04:00",
+      "content": "<div><p>We are looking for a Senior Platform Engineer to join our <strong>Infrastructure</strong> team.</p><ul><li>Build CI/CD pipelines</li><li>Own Kubernetes clusters</li></ul></div>"
+    },
+    {
+      "id": 2222222,
+      "title": "Site Reliability Engineer",
+      "absolute_url": "https://job-boards.greenhouse.io/exampleco/jobs/2222222",
+      "location": { "name": "Berlin, Germany" },
+      "departments": [{ "name": "Infrastructure" }],
+      "offices": [{ "name": "Berlin" }],
+      "updated_at": "2026-05-15T08:00:00-04:00",
+      "first_published": "2026-05-10T07:45:00-04:00",
+      "content": "<p>Join our Berlin-based SRE team to keep production systems reliable.</p>"
+    },
+    {
+      "id": 3333333,
+      "title": "Remote Data Engineer",
+      "absolute_url": "https://job-boards.greenhouse.io/exampleco/jobs/3333333",
+      "location": { "name": "Anywhere" },
+      "departments": [],
+      "updated_at": "2026-04-01T12:00:00-04:00",
+      "content": "<p>Fully remote data engineering role, no office location required.</p>"
+    }
+  ]
+}

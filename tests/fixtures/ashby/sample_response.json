@@ -1,0 +1,68 @@
+{
+  "jobs": [
+    {
+      "id": "11111111-aaaa-bbbb-cccc-111111111111",
+      "title": "Senior Platform Engineer",
+      "department": "Engineering",
+      "team": "Platform",
+      "employmentType": "FullTime",
+      "location": "Remote",
+      "isListed": true,
+      "isRemote": true,
+      "workplaceType": "Remote",
+      "publishedAt": "2026-05-18T09:12:00.000+00:00",
+      "jobUrl": "https://jobs.ashbyhq.com/exampleco/11111111-aaaa-bbbb-cccc-111111111111",
+      "applyUrl": "https://jobs.ashbyhq.com/exampleco/11111111-aaaa-bbbb-cccc-111111111111/application",
+      "descriptionHtml": "<p>We're looking for a <strong>Senior Platform Engineer</strong> to help scale our infrastructure.</p><ul><li>Own core services</li></ul>",
+      "compensation": {
+        "compensationTierSummary": null,
+        "scrapeableCompensationSalarySummary": null,
+        "compensationTiers": [],
+        "summaryComponents": [
+          {
+            "minValue": 150000,
+            "maxValue": 190000,
+            "currencyCode": "USD"
+          }
+        ]
+      }
+    },
+    {
+      "id": "22222222-aaaa-bbbb-cccc-222222222222",
+      "title": "Office Coordinator",
+      "department": "Operations",
+      "team": "People",
+      "employmentType": "FullTime",
+      "location": "Berlin, Germany",
+      "isListed": true,
+      "isRemote": false,
+      "workplaceType": "Onsite",
+      "publishedAt": "2026-05-10T14:30:00.000+00:00",
+      "jobUrl": "https://jobs.ashbyhq.com/exampleco/22222222-aaaa-bbbb-cccc-222222222222",
+      "applyUrl": "https://jobs.ashbyhq.com/exampleco/22222222-aaaa-bbbb-cccc-222222222222/application",
+      "descriptionHtml": "<p>Keep our Berlin office running smoothly and support the local team.</p>",
+      "compensation": {
+        "compensationTierSummary": null,
+        "scrapeableCompensationSalarySummary": null,
+        "compensationTiers": [],
+        "summaryComponents": []
+      }
+    },
+    {
+      "id": "33333333-aaaa-bbbb-cccc-333333333333",
+      "title": "Data Engineer",
+      "department": "Data",
+      "team": "Data",
+      "employmentType": "FullTime",
+      "location": "Remote - EMEA",
+      "isListed": true,
+      "isRemote": true,
+      "workplaceType": "Remote",
+      "publishedAt": "2026-04-22T11:00:00.000+00:00",
+      "jobUrl": "https://jobs.ashbyhq.com/exampleco/33333333-aaaa-bbbb-cccc-333333333333",
+      "applyUrl": "https://jobs.ashbyhq.com/exampleco/33333333-aaaa-bbbb-cccc-333333333333/application",
+      "descriptionHtml": "<p>Fully remote data engineering role supporting our EMEA data platform.</p>"
+    }
+  ],
+  "apiVersion": "1"
+}

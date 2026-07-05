@@ -1,0 +1,43 @@
+[
+  {
+    "last_updated": 1783204852,
+    "legal": "API Terms of Service: Please link back (with follow, and without nofollow!) to the URL on Remote OK and mention Remote OK as a source, so we get traffic back from your site. If you do not we'll have to suspend API access."
+  },
+  {
+    "id": "1000001",
+    "slug": "senior-backend-engineer-acme-corp-1000001",
+    "company": "Acme Corp",
+    "position": "Senior Backend Engineer",
+    "tags": ["python", "django", "postgres", "aws"],
+    "location": "Worldwide",
+    "salary_min": 90000,
+    "salary_max": 130000,
+    "url": "https://remoteok.com/remote-jobs/senior-backend-engineer-acme-corp-1000001",
+    "date": "2026-06-28T14:30:00+00:00",
+    "description": "<p>Acme Corp is hiring a <strong>Senior Backend Engineer</strong> to build our core API.</p><ul><li>5+ years Python</li><li>Experience with Django and Postgres</li></ul>"
+  },
+  {
+    "id": "1000002",
+    "slug": "product-designer-globex-1000002",
+    "company": "Globex",
+    "position": "Product Designer",
+    "tags": ["design", "figma", "ux"],
+    "location": "Americas Only",
+    "salary_min": 0,
+    "salary_max": 0,
+    "url": "https://remoteok.com/remote-jobs/product-designer-globex-1000002",
+    "date": "2026-06-27T09:15:00+00:00",
+    "description": "<p>Globex is looking for a Product Designer. Salary not disclosed.</p>"
+  },
+  {
+    "id": "1000003",
+    "slug": "data-scientist-initech-1000003",
+    "company": "Initech",
+    "position": "Data Scientist",
+    "tags": ["python", "sql", "machine-learning"],
+    "location": "Europe",
+    "url": "https://remoteok.com/remote-jobs/data-scientist-initech-1000003",
+    "date": "2026-06-25T11:00:00+00:00",
+    "description": "<p>Initech needs a Data Scientist. No salary field provided at all.</p>"
+  }
+]
