@@ -27,6 +27,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   spreadsheet, following the two fixes above. The core system is now confirmed working
   end-to-end, not just unit-tested.
 
+### Changed
+
+- Tuned `config/skills_profile.yaml` to Abraham's actual resume, replacing the generic starting
+  default: must-have skills narrowed to his core hands-on stack (Kubernetes, Docker, Terraform,
+  CI/CD, AWS, Ansible, GitHub Actions, Jenkins); nice-to-have expanded to cover his differentiated
+  strengths in observability (Prometheus, Grafana, OpenTelemetry, Loki, Alertmanager) and
+  DevSecOps/supply-chain security (Trivy, Snyk, SonarQube, Gitleaks, CodeQL, OIDC, SBOM). No code
+  changes — this is purely a data-file tune, the whole point of keeping scoring config-driven.
+
 ## [0.3.0] - 2026-07-05
 
 ### Added

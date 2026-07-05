@@ -1,8 +1,8 @@
-# Scoring profile — DATA, not code (loaded by scoring/profile.py in Phase 3).
+# Scoring profile — DATA, not code (loaded by scoring/profile.py).
 #
-# This is a reasonable DevOps/Platform/SRE/Cloud starting default, not tailored to
-# your actual resume yet. Tune the keyword lists and weights to match your real
-# skills/seniority — the scoring engine just reads this file, no code changes needed.
+# Tuned to Abraham Ayamigah's actual resume (2026-07-05) — replaces the generic
+# DevOps/SRE/Platform starting default. Update this file directly as skills,
+# certifications, or target seniority change; no code changes needed.
 
 role_title_keywords:
   - platform engineer
@@ -20,39 +20,66 @@ role_title_keywords:
   - solutions engineer, cloud
   - backend infrastructure engineer
 
+# Core, hands-on production experience per the resume (AmaliTech DevOps role
+# + personal projects) — the tools he'd consider himself strongest in.
 must_have_skills:
   - kubernetes
   - docker
   - terraform
   - ci/cd
-  - linux
-
-nice_to_have_skills:
   - aws
-  - gcp
-  - azure
   - ansible
+  - github actions
+  - jenkins
+
+# Broader skill set from the resume that differentiates him beyond the core
+# must-haves: observability/SRE tooling, DevSecOps/supply-chain security, and
+# secondary cloud/backend experience.
+nice_to_have_skills:
+  - python
+  - bash
   - prometheus
   - grafana
   - helm
   - argocd
   - gitops
-  - python
-  - go
-  - bash
-  - github actions
-  - gitlab ci
-  - jenkins
   - istio
   - service mesh
   - observability
-  - sre practices
+  - opentelemetry
+  - loki
+  - alertmanager
+  - distributed tracing
+  - slo
+  - sli
   - incident response
   - vault
+  - secrets manager
   - security scanning
   - sbom
+  - trivy
+  - snyk
+  - sonarqube
+  - gitleaks
+  - codeql
+  - oidc
+  - devsecops
+  - eks
+  - cloudformation
+  - azure
+  - gcp
+  - postgresql
+  - redis
+  - nginx
+  - load balancing
 
-seniority: mid-senior   # informational only for now; not yet used to filter
+# Informational only for now; not yet used to filter. ~8 months full-time
+# DevOps experience (AmaliTech, since 11/2025) as of this writing, but with
+# unusually deep personal-project work (self-healing AWS platform, K8s
+# platform engineering, DevSecOps supply-chain security) that reads well
+# above pure tenure — comfortable targeting junior-to-mid roles, and mid
+# roles where project depth offsets shorter professional history.
+seniority: junior-to-mid
 
 sponsorship_keywords:
   - visa sponsorship
