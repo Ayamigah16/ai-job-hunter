@@ -2,9 +2,12 @@
 
 from __future__ import annotations
 
+from datetime import UTC, datetime
+
 import click
 
 from ai_job_hunter.config_settings import get_settings
+from ai_job_hunter.dashboard import refresh_dashboard
 from ai_job_hunter.notifiers.dispatcher import NotifierDispatcher
 from ai_job_hunter.notifiers.email_notifier import EmailNotifier
 from ai_job_hunter.notifiers.telegram_notifier import TelegramNotifier
@@ -157,6 +160,32 @@ def run() -> None:
         f"{len(result.open_roles.skipped)} below threshold. "
         f"Target Companies: {len(result.target_companies.appended)} new, "
         f"{len(result.target_companies.updated)} updated.",
+        fg="green",
+    )
+
+
+@cli.command("dashboard")
+def dashboard() -> None:
+    """Recompute the Weekly Dashboard tab from the Applications tab."""
+    settings = get_settings()
+    if not settings.google_application_credentials or not settings.google_sheets_spreadsheet_id:
+        raise click.ClickException(
+            "Google Sheets isn't configured — set GOOGLE_APPLICATION_CREDENTIALS and "
+            "GOOGLE_SHEETS_SPREADSHEET_ID in .env. See the README's Google Sheets setup section."
+        )
+
+    try:
+        client = get_gspread_client(settings.google_application_credentials)
+        spreadsheet = open_spreadsheet(client, settings.google_sheets_spreadsheet_id)
+        now = datetime.now(UTC)
+        stats = refresh_dashboard(spreadsheet, now.date(), now.isoformat())
+    except (SheetsConfigError, SheetSchemaError) as exc:
+        raise click.ClickException(str(exc)) from exc
+
+    click.secho(
+        f"Weekly Dashboard updated: {stats.applications_this_week} applications this week, "
+        f"{stats.interviews} interviews, {stats.offers} offers, {stats.rejections} rejections, "
+        f"{stats.pending} pending, {stats.response_rate}% response rate.",
         fg="green",
     )
 

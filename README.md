@@ -65,8 +65,10 @@ ai-job-hunter fetch --dry-run --score --top 20
 1. **Create the spreadsheet.** Make a new Google Sheet with tabs named exactly `Open Roles`,
    `Target Companies`, `Networking`, `Applications`, `Weekly Dashboard`. Give `Open Roles` the
    header row `Company | Role | Country | Remote | Region | Salary | Tech Stack | Apply Link |
-   Date Posted | Deadline | Status | Notes`, and `Target Companies` the header row `Company |
-   Industry | Careers Page | Remote Friendly | Hires in Africa? | Referral Needed? | Priority`
+   Date Posted | Deadline | Status | Notes`, `Target Companies` the header row `Company |
+   Industry | Careers Page | Remote Friendly | Hires in Africa? | Referral Needed? | Priority`,
+   and (if you plan to use `ai-job-hunter dashboard`) `Applications` the header row
+   `Date Applied | Company | Role | Resume Used | Cover Letter | Interview Stage | Feedback`
    (exact spelling/order — the pipeline validates this and fails loudly on drift, see
    `sheets/schema.py`). Copy the spreadsheet id out of its URL
    (`docs.google.com/spreadsheets/d/`**`THIS_PART`**`/edit`).
@@ -80,7 +82,10 @@ ai-job-hunter fetch --dry-run --score --top 20
    `credentials/service-account.json` (already gitignored), and set
    `GOOGLE_APPLICATION_CREDENTIALS=./credentials/service-account.json` and
    `GOOGLE_SHEETS_SPREADSHEET_ID=<the id from step 1>`.
-5. Run `ai-job-hunter run`.
+5. Run `ai-job-hunter run`. Run `ai-job-hunter dashboard` any time to recompute the Weekly
+   Dashboard tab's stats (Applications This Week, Interviews, Response Rate, Rejections,
+   Pending, Offers) from the Applications tab — it fully overwrites that tab each time, since
+   it's entirely computed, not user-edited.
 
 ## Notifications setup (optional)
 
@@ -143,7 +148,7 @@ default) hits real endpoints.
       live test (see setup section above)
 - [x] GitHub Actions scheduler + Docker (`v0.2.0`) — code complete and Docker image verified
       locally end-to-end; the daily schedule needs repo secrets configured (see setup above)
-- [ ] Weekly Dashboard tab
+- [x] Weekly Dashboard tab
 - [ ] Hardening: retries, structured logging, mypy, coverage gate
 - [ ] Grow company registry toward 100-300 companies (ongoing, config-only)
 - [ ] **Deferred**: AI-generated tailored CVs and cover letters

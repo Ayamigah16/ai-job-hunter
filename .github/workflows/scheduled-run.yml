@@ -38,3 +38,9 @@ jobs:
           NOTIFY_EMAIL_FROM: ${{ secrets.NOTIFY_EMAIL_FROM }}
           NOTIFY_EMAIL_TO: ${{ secrets.NOTIFY_EMAIL_TO }}
         run: ai-job-hunter run
+
+      - name: Refresh Weekly Dashboard
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/service-account.json
+          GOOGLE_SHEETS_SPREADSHEET_ID: ${{ secrets.GOOGLE_SHEETS_SPREADSHEET_ID }}
+        run: ai-job-hunter dashboard

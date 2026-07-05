@@ -28,7 +28,9 @@ from ai_job_hunter.sheets.schema import (
     TARGET_COMPANIES_COLUMNS,
     TARGET_COMPANIES_MANAGED_COLUMNS,
     TARGET_COMPANIES_SHEET,
+    validate_headers,
 )
+from ai_job_hunter.sheets.schema import SheetSchemaError as SheetSchemaError  # re-exported
 
 if TYPE_CHECKING:
     import gspread
@@ -49,10 +51,6 @@ _CAREERS_PAGE_TEMPLATES: dict[ATSType, str] = {
 
 
 _APPLY_LINK_COLUMN = "Apply Link"
-
-
-class SheetSchemaError(Exception):
-    """Raised when a worksheet's actual header row doesn't match schema.py."""
 
 
 @dataclass
@@ -178,16 +176,6 @@ class FakeSheetsWriter:
         return result
 
 
-def _validate_headers(worksheet: gspread.Worksheet, expected_columns: list[str]) -> None:
-    actual = worksheet.row_values(1)
-    if actual != expected_columns:
-        raise SheetSchemaError(
-            f"Worksheet {worksheet.title!r} headers don't match the expected schema.\n"
-            f"Expected: {expected_columns}\nActual:   {actual}\n"
-            "Fix the sheet's header row (or update sheets/schema.py) before syncing."
-        )
-
-
 class GoogleSheetsWriter:
     """Real gspread-backed writer. See FakeSheetsWriter for the same logic offline."""
 
@@ -196,7 +184,7 @@ class GoogleSheetsWriter:
 
     def sync_open_roles(self, scored_jobs: list[ScoredJob], score_threshold: float) -> SyncResult:
         worksheet = self._spreadsheet.worksheet(OPEN_ROLES_SHEET)
-        _validate_headers(worksheet, OPEN_ROLES_COLUMNS)
+        validate_headers(worksheet, OPEN_ROLES_COLUMNS)
 
         existing_records = worksheet.get_all_records()
         existing_by_id = {}
@@ -219,7 +207,7 @@ class GoogleSheetsWriter:
                 values = [row[column] for column in OPEN_ROLES_MANAGED_COLUMNS]
                 end_col = gspread.utils.rowcol_to_a1(row_number, len(OPEN_ROLES_MANAGED_COLUMNS))
                 start_col = gspread.utils.rowcol_to_a1(row_number, 1)
-                worksheet.update(f"{start_col}:{end_col}", [values])
+                worksheet.update([values], f"{start_col}:{end_col}")
                 result.updated.append(scored)
             else:
                 row["Status"] = "New"
@@ -234,7 +222,7 @@ class GoogleSheetsWriter:
 
     def sync_target_companies(self, companies: list[CompanyEntry]) -> SyncResult:
         worksheet = self._spreadsheet.worksheet(TARGET_COMPANIES_SHEET)
-        _validate_headers(worksheet, TARGET_COMPANIES_COLUMNS)
+        validate_headers(worksheet, TARGET_COMPANIES_COLUMNS)
 
         existing_records = worksheet.get_all_records()
         existing_by_name = {
@@ -254,7 +242,7 @@ class GoogleSheetsWriter:
                 num_managed = len(TARGET_COMPANIES_MANAGED_COLUMNS)
                 start_col = gspread.utils.rowcol_to_a1(row_number, 2)
                 end_col = gspread.utils.rowcol_to_a1(row_number, 1 + num_managed)
-                worksheet.update(f"{start_col}:{end_col}", [values])
+                worksheet.update([values], f"{start_col}:{end_col}")
                 result.updated.append(company)
             else:
                 row = build_target_company_row(company)

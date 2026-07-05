@@ -69,3 +69,16 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   container. See ADR-0004 for why GitHub Actions over local cron and the ephemeral-runner
   implications for state design. The daily schedule itself needs GitHub repo secrets configured
   (documented in the README) before it can run for real.
+- Weekly Dashboard tab (`dashboard.py`, `ai-job-hunter dashboard` CLI command): reads the
+  Applications tab, classifies each row into exactly one bucket (offer > rejection > interview >
+  pending, by keyword match on Interview Stage/Feedback — free text, so intentionally simple, see
+  the module docstring for tuning), and fully overwrites the Weekly Dashboard tab with
+  Applications This Week / Interviews / Response Rate / Rejections / Pending / Offers — this tab
+  is entirely computed, so unlike Open Roles/Target Companies there's no partial-column
+  non-clobber contract needed. Wired into `scheduled-run.yml` after the main sync. Moved header
+  validation (`validate_headers`/`SheetSchemaError`) from `sheets/writer.py` into `sheets/schema.py`
+  so both `writer.py` and `dashboard.py` share one implementation. Also fixed a latent bug found
+  while building this: `GoogleSheetsWriter`'s two `worksheet.update()` calls had gspread's
+  `(values, range_name)` arguments swapped — never caught by the unit suite since
+  `FakeSheetsWriter` doesn't touch the real gspread API, only surfaced by checking gspread's
+  actual method signature while wiring the new dashboard code the same way.
